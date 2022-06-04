@@ -2,26 +2,16 @@ const mongoose = require('mongoose');
 import config from '../config/config'
 
 const dbConnection = async () => {
-  try {
-    return await mongoose.connect(`mongodb://${config.MONGO_HOST}/${config.MONGO_DATABASE}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    //   user: config.MONGO_USER,
-    //   pass: config.MONGO_PASSWORD
+  return await mongoose.connect(`mongodb+srv://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_HOST}/${config.MONGO_CONFIG}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+    .then(() => {
+      console.log('DB Online');
     })
-      .then(() => {
-        console.log('DB Online');
-      })
-      .catch((err) => {
-        console.error('Error connecting to mongo', err);
-      });
-  } catch (error) {
-    throwError('Error a la hora de inicializad DB');
-  }
-};
-
-const throwError = (msg:string):never => {
-  throw new Error (msg);
+    .catch((err) => {
+      console.error('Error connecting to mongo', err);
+    });
 };
 
 export default dbConnection;
