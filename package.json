@@ -4,7 +4,7 @@
   "description": "Back-Side config.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/app.js",
+    "start": "node ./dist/index.js",
     "build": "tsc --build",
     "dev": "ts-node-dev --respawn src/app.ts",
     "test": "jest --collectCoverage=false"
