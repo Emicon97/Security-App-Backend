@@ -7,6 +7,9 @@ const router=Router();
 
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
+router.get("/", async (req, res) => {
+    res.send("funciona")
+})
 router.get('/:id', TokenValidation, async(req,res) => {
     try{
         let { id } = req.params;
