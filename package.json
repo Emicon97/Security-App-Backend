@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/app.js",
-    "build": "npm install && tsc",
+    "build": "tsc --build",
     "dev": "ts-node-dev --respawn src/app.ts",
     "test": "jest --collectCoverage=false"
   },
