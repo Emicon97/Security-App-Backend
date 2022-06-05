@@ -40,7 +40,8 @@ router.post('/boss', (req, res) => __awaiter(void 0, void 0, void 0, function* (
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("funciona");
+    let all = yield user_1.bossModel.find();
+    res.send(all);
 }));
 router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
