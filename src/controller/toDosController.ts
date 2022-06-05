@@ -31,7 +31,7 @@ async function getToDos (id:string) {
   // First check if the id belongs to a task.
   // Primero revisá si el id pertenece a una tarea.
   let toDos = await toDosModel.findById(id)
-    .then(async (toDo) => {
+    .then(async (toDo:any) => {
       if (toDo !== null) {
         // If something was found, return it.
         // Si se encontró algo, devolvelo.
@@ -42,7 +42,7 @@ async function getToDos (id:string) {
         return await getToDosByRole(id);
       }
     })
-    .catch((err) => {
+    .catch((err:any) => {
       throw new Error (err.message);
     });
   return toDos;

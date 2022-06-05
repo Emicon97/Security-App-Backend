@@ -174,7 +174,7 @@ async function roleIdentifier (id:string):Promise<string> {
 
 async function dniCHecker (dni:number) {
     await watcherModel.findOne({dni})
-    .then((watcher) => {
+    .then((watcher:any) => {
         if (watcher) {
             throw new Error ("That security guard is already registered in the company's database.");
         }
@@ -182,7 +182,7 @@ async function dniCHecker (dni:number) {
     .then(async () => {
         return await supervisorModel.findOne({dni});
     })
-    .then((supervisor) => {
+    .then((supervisor:any) => {
         if (supervisor) {
             throw new Error ("That supervisor is already registered in the company's database.");
         }
@@ -190,12 +190,12 @@ async function dniCHecker (dni:number) {
     .then(async () => {
         return await bossModel.findOne({dni});
     })
-    .then((boss) => {
+    .then((boss:any) => {
         if (boss) {
             throw new Error ('You are already registered in our database.');
         }
     })
-    .catch((err) => {
+    .catch((err:any) => {
         throw new Error (err.message);
     })
 }
