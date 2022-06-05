@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
 import jwt from 'jsonwebtoken';
 const { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } = require('../controller/userController');
+import { bossModel } from '../models/user';
 
 const router=Router();
 
@@ -94,6 +95,25 @@ router.delete('/:id', TokenValidation, async (req, res) => {
             console.log('Unexpected Error', error);
         }
     }
+})
+
+router.post('/boss', async (req, res) => {
+    async function bossCreator () {
+        const boss = await bossModel.create({
+              name: 'Emi',
+              lastName: 'Conde',
+              password: 'granjefe@biggestjefe.password',
+              dni: 88888888,
+              email: 'disizmuymale',
+              telephone: 18181818,
+              environment: 'Mi casa'
+        })
+        const saveUser = await boss.save();
+        return saveUser;
+     }
+     
+    let boss = bossCreator();
+    res.json(boss);
 })
 
 export default router;
