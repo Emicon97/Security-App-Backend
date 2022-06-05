@@ -4,7 +4,7 @@
   "description": "Back-Side config.",
   "main": "index.js",
   "scripts": {
-    "node": "build/index.js",
+    "node": ".dist/index.js",
     "tsc": "tsc",
     "test": "test",
     "dev": "ts-node-dev index.ts",
