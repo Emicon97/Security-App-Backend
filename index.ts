@@ -1,7 +1,7 @@
 import app from './src/app';
 import dbConnection  from './src/db/index';
 import dotenv from 'dotenv'
-dotenv.config()
+// dotenv.config()
 const port = process.env.PORT || 3000;
 
 async function main(){
