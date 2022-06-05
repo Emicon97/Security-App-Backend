@@ -18,6 +18,25 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } = require('../controller/userController');
 const user_1 = require("../models/user");
 const router = (0, express_1.Router)();
+router.post('/boss', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    function bossCreator() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const boss = yield user_1.bossModel.create({
+                name: 'Emi',
+                lastName: 'Conde',
+                password: 'granjefe@biggestjefe.password',
+                dni: 88888888,
+                email: 'disizmuymale',
+                telephone: 18181818,
+                environment: 'Mi casa'
+            });
+            const saveUser = yield boss.save();
+            return saveUser;
+        });
+    }
+    let boss = bossCreator();
+    res.json(boss);
+}));
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -113,24 +132,5 @@ router.delete('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(voi
             console.log('Unexpected Error', error);
         }
     }
-}));
-router.post('/boss', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    function bossCreator() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const boss = yield user_1.bossModel.create({
-                name: 'Emi',
-                lastName: 'Conde',
-                password: 'granjefe@biggestjefe.password',
-                dni: 88888888,
-                email: 'disizmuymale',
-                telephone: 18181818,
-                environment: 'Mi casa'
-            });
-            const saveUser = yield boss.save();
-            return saveUser;
-        });
-    }
-    let boss = bossCreator();
-    res.json(boss);
 }));
 exports.default = router;
