@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
 import jwt from 'jsonwebtoken';
-const { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } = require('../controller/userController');
+import { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } from '../controller/userController';
 import { bossModel } from '../models/user';
 
 const router=Router();
@@ -28,7 +28,6 @@ router.post('/boss', async (req, res) => {
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
 router.get("/", async (req, res) => {
-    res.send('hola')
     let all = await bossModel.findById('629d3056eff8fb00c2265ac2');
     res.send(all);
 })
@@ -53,8 +52,10 @@ router.get('/employees/:id', TokenValidation, async (req, res)=> {
     try{
         let { id } = req.params;
         let { name } = req.query;
-        let userData = await getUserByHierarchy(id, name);
-        res.json(userData);
+        if (typeof name === 'string') {
+            let userData = await getUserByHierarchy(id, name);
+            res.json(userData);
+        }
     } catch (error) {
         if (error instanceof Error) {
             res.status(404).json(error.message);

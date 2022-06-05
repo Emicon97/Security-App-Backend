@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteToDo = exports.updateToDo = exports.assignTask = exports.getByIdAndName = exports.getByIdAndStatus = exports.getToDosByRole = exports.getToDos = exports.getToDosManager = void 0;
 const toDos_1 = __importDefault(require("../models/toDos"));
 function getToDosManager(id, priority, status) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -37,6 +38,7 @@ function getToDosManager(id, priority, status) {
         }
     });
 }
+exports.getToDosManager = getToDosManager;
 function getAllToDos() {
     return __awaiter(this, void 0, void 0, function* () {
         const allTodos = yield toDos_1.default.find();
@@ -68,6 +70,7 @@ function getToDos(id) {
         return toDos;
     });
 }
+exports.getToDos = getToDos;
 function getToDosByRole(responsible) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -79,6 +82,7 @@ function getToDosByRole(responsible) {
         }
     });
 }
+exports.getToDosByRole = getToDosByRole;
 function getByIdAndPriority(responsible, priority) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -101,6 +105,7 @@ function getByIdAndStatus(responsible, status) {
         }
     });
 }
+exports.getByIdAndStatus = getByIdAndStatus;
 function escapeStringRegexp(string) {
     if (typeof string !== 'string') {
         throw new TypeError('Expected a string');
@@ -126,6 +131,7 @@ function getByIdAndName(responsible, name) {
         }
     });
 }
+exports.getByIdAndName = getByIdAndName;
 function getByIdPriorityAndStatus(responsible, priority, status) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -154,6 +160,7 @@ function assignTask(name, description, priority, responsible) {
         }
     });
 }
+exports.assignTask = assignTask;
 function updateToDo(id, name, description, status) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -169,6 +176,7 @@ function updateToDo(id, name, description, status) {
         }
     });
 }
+exports.updateToDo = updateToDo;
 function deleteToDo(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -180,13 +188,4 @@ function deleteToDo(id) {
         }
     });
 }
-exports.default = {
-    getToDosManager,
-    getToDos,
-    getToDosByRole,
-    getByIdAndStatus,
-    getByIdAndName,
-    assignTask,
-    updateToDo,
-    deleteToDo
-};
+exports.deleteToDo = deleteToDo;

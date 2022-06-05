@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -32,6 +33,7 @@ function getUserById(id) {
         throw new Error("This user does not exist.");
     });
 }
+exports.getUserById = getUserById;
 function getUserByHierarchy(id, name) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -47,6 +49,7 @@ function getUserByHierarchy(id, name) {
         }
     });
 }
+exports.getUserByHierarchy = getUserByHierarchy;
 function getEmployees(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let boss = yield user_1.bossModel.findById(id);
@@ -116,6 +119,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
         }
     });
 }
+exports.signUp = signUp;
 function deleteUser(id, role) {
     return __awaiter(this, void 0, void 0, function* () {
         if (role === 'supervisor') {
@@ -130,6 +134,7 @@ function deleteUser(id, role) {
         throw new Error('The person that you are trying to delete from the database could not be found.');
     });
 }
+exports.deleteUser = deleteUser;
 function updateUser(id, password, email, telephone, environment, workingHours, profilePic) {
     return __awaiter(this, void 0, void 0, function* () {
         const role = yield roleIdentifier(id);
@@ -158,6 +163,7 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
         return 'The parameters could not be updated.';
     });
 }
+exports.updateUser = updateUser;
 function roleIdentifier(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const isBoss = yield user_1.bossModel.findById(id);
@@ -201,10 +207,3 @@ function dniCHecker(dni) {
         });
     });
 }
-exports.default = {
-    signUp,
-    getUserById,
-    getUserByHierarchy,
-    deleteUser,
-    updateUser
-};

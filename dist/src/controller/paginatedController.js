@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTodosPaginatedManager = exports.getEmployeesPaginatedManager = void 0;
 const user_1 = require("../models/user");
 const toDos_1 = __importDefault(require("../models/toDos"));
 //* funcion que reemplaza el operador LIKE en las busquedas por nombre
@@ -44,6 +45,7 @@ function getEmployeesPaginatedManager(id, limit, skip, name) {
         }
     });
 }
+exports.getEmployeesPaginatedManager = getEmployeesPaginatedManager;
 //* Realiza el paginado sobre todos los usuarios segun limit y skip
 function getPaginatedAll(id, limit, skip) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -114,6 +116,7 @@ function getTodosPaginatedManager(id, limit, skip, name) {
         }
     });
 }
+exports.getTodosPaginatedManager = getTodosPaginatedManager;
 //* Realiza el paginado sobre todas las tareas segun limit y skip
 function getToDosPaginatedAll(id, limit, skip) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -141,7 +144,3 @@ function getToDosPaginatedFilterName(id, limit, skip, name) {
         }
     });
 }
-exports.default = {
-    getEmployeesPaginatedManager,
-    getTodosPaginatedManager,
-};

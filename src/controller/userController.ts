@@ -200,7 +200,7 @@ async function dniCHecker (dni:number) {
     })
 }
 
-export default {
+export {
     signUp,
     getUserById,
     getUserByHierarchy,

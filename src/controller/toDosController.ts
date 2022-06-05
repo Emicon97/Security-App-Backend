@@ -1,6 +1,4 @@
 import toDosModel from '../models/toDos';
-import { bossModel, supervisorModel, watcherModel } from '../models/user';
-
 
 async function getToDosManager (id?:string, priority?:string, status?:string) {
   try {
@@ -152,7 +150,7 @@ async function deleteToDo (id:string) {
   }
 }
 
-export default  {
+export {
   getToDosManager,
   getToDos,
   getToDosByRole,

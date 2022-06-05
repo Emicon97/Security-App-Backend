@@ -13,21 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const { logIn } = require('../controller/logInController');
-const { getUserById } = require('../controller/userController');
+const logInController_1 = require("../controller/logInController");
+const userController_1 = require("../controller/userController");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = (0, express_1.Router)();
 router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { dni, password } = req.body;
-        let findUser = yield logIn(dni, password);
-        if (findUser !== false) {
+        let findUser = yield (0, logInController_1.logIn)(dni, password);
+        console.log(findUser);
+        if (findUser) {
             const token = jsonwebtoken_1.default.sign({ _id: findUser.id }, process.env.TOKEN_SECRET || 'tokenPass', {
                 expiresIn: 60 * 60 * 24
             });
-            let dataUser = yield getUserById(findUser.id);
+            let dataUser = yield (0, userController_1.getUserById)(findUser.id);
             dataUser.push(token);
-            res.json(dataUser);
+            res.cookie('auth-token', token).json(dataUser);
         }
         else {
             res.redirect('/');

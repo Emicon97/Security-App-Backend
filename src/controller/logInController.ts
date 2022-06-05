@@ -18,6 +18,6 @@ async function logIn (dni:number, password:string) {
     }
 }
 
-export default {
+export {
     logIn
 };

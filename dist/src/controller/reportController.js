@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSenderOrReceiver = exports.getReportsById = exports.sendReport = void 0;
 const Report_1 = __importDefault(require("../models/Report"));
 function sendReport(title, sender, receiver) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -25,6 +26,7 @@ function sendReport(title, sender, receiver) {
         return report;
     });
 }
+exports.sendReport = sendReport;
 function getReportsById(id, relation) {
     return __awaiter(this, void 0, void 0, function* () {
         if (relation === 'sender') {
@@ -41,6 +43,7 @@ function getReportsById(id, relation) {
         }
     });
 }
+exports.getReportsById = getReportsById;
 function getSenderOrReceiver(id, relation) {
     return __awaiter(this, void 0, void 0, function* () {
         if (relation === 'sender')
@@ -49,6 +52,7 @@ function getSenderOrReceiver(id, relation) {
             return yield getReceiver(id);
     });
 }
+exports.getSenderOrReceiver = getSenderOrReceiver;
 function getSender(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const sender = yield Report_1.default.findById(id).populate({ path: 'sender' });
@@ -61,8 +65,3 @@ function getReceiver(id) {
         return receiver;
     });
 }
-exports.default = {
-    sendReport,
-    getReportsById,
-    getSenderOrReceiver
-};

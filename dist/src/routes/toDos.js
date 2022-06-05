@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const verifyToken_1 = require("../libs/verifyToken");
-const { getToDosManager, assignTask, updateToDo, deleteToDo, getByIdAndName } = require('../controller/toDosController');
+const toDosController_1 = require("../controller/toDosController");
 const router = (0, express_1.Router)();
 //*GET trae todas las tareas en la Base de Datos
 //http://localhost:3001/todos 
 router.get('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let list = yield getToDosManager();
+        let list = yield (0, toDosController_1.getToDosManager)();
         res.status(200).json(list);
     }
     catch (error) {
@@ -35,8 +35,10 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
     let { id } = req.params;
     let { priority } = req.query;
     try {
-        let list = yield getToDosManager(id, priority);
-        res.status(200).json(list);
+        if (typeof priority === 'string') {
+            let list = yield (0, toDosController_1.getToDosManager)(id, priority);
+            res.status(200).json(list);
+        }
     }
     catch (error) {
         if (error instanceof Error) {
@@ -53,8 +55,10 @@ router.get('/:id/search', verifyToken_1.TokenValidation, (req, res) => __awaiter
     let { id } = req.params;
     let { name } = req.query;
     try {
-        let toDos = yield getByIdAndName(id, name);
-        res.status(200).json(toDos);
+        if (typeof name === 'string') {
+            let toDos = yield (0, toDosController_1.getByIdAndName)(id, name);
+            res.status(200).json(toDos);
+        }
     }
     catch (error) {
         if (error instanceof Error) {
@@ -71,8 +75,10 @@ router.get('/:id/:status', verifyToken_1.TokenValidation, (req, res) => __awaite
     let { id, status } = req.params;
     let { priority } = req.query;
     try {
-        let toDos = yield getToDosManager(id, priority, status);
-        res.status(200).json(toDos);
+        if (typeof priority === 'string') {
+            let toDos = yield (0, toDosController_1.getToDosManager)(id, priority, status);
+            res.status(200).json(toDos);
+        }
     }
     catch (error) {
         if (error instanceof Error) {
@@ -89,7 +95,7 @@ router.get('/:id/:status', verifyToken_1.TokenValidation, (req, res) => __awaite
 router.post('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { name, description, priority, id } = req.body;
     try {
-        let task = yield assignTask(name, description, priority, id);
+        let task = yield (0, toDosController_1.assignTask)(name, description, priority, id);
         res.json(task);
     }
     catch (error) {
@@ -107,7 +113,7 @@ router.put('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
     let { id } = req.params;
     let { name, description, status } = req.body;
     try {
-        let data = yield updateToDo(id, name, description, status);
+        let data = yield (0, toDosController_1.updateToDo)(id, name, description, status);
         res.json(data);
     }
     catch (error) {
@@ -124,7 +130,7 @@ router.put('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
 router.delete('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { id } = req.params;
     try {
-        const successMessage = yield deleteToDo(id);
+        const successMessage = yield (0, toDosController_1.deleteToDo)(id);
         res.json(successMessage);
     }
     catch (error) {

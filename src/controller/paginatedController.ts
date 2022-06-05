@@ -113,7 +113,7 @@ async function getToDosPaginatedFilterName (id:string, limit:number, skip:number
     }
 }
 
-export default {
+export {
     getEmployeesPaginatedManager,
     getTodosPaginatedManager,
 };

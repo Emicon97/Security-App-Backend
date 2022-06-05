@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
-const { getToDosManager, assignTask, updateToDo, deleteToDo, getByIdAndName } = require('../controller/toDosController');
+import { getToDosManager, assignTask, updateToDo, deleteToDo, getByIdAndName } from '../controller/toDosController';
 
 const router = Router();
 
@@ -26,8 +26,10 @@ router.get('/:id', TokenValidation, async (req, res) => {
     let { id } = req.params;
     let { priority } = req.query;
     try{
-        let list = await getToDosManager(id, priority);
-        res.status(200).json(list);
+        if (typeof priority === 'string') {
+            let list = await getToDosManager(id, priority);
+            res.status(200).json(list);
+        }
     }catch(error){
         if (error instanceof Error) {
             res.status(404).json(error.message);
@@ -44,8 +46,10 @@ router.get('/:id/search', TokenValidation, async (req, res) => {
     let { id } = req.params;
     let { name } = req.query;
     try{
-        let toDos = await getByIdAndName(id, name);
-        res.status(200).json(toDos);
+        if (typeof name === 'string') {
+            let toDos = await getByIdAndName(id, name);
+            res.status(200).json(toDos);
+        }
     } catch (error) {
         if (error instanceof Error) {
             res.status(404).json(error.message);
@@ -62,8 +66,10 @@ router.get('/:id/:status', TokenValidation, async (req, res) => {
     let { id, status } = req.params;
     let { priority } = req.query;
     try{
-        let toDos = await getToDosManager(id, priority, status);
-        res.status(200).json(toDos);
+        if (typeof priority === 'string') {
+            let toDos = await getToDosManager(id, priority, status);
+            res.status(200).json(toDos);
+        }
     }catch(error){
         if (error instanceof Error) {
             res.status(404).json(error.message);

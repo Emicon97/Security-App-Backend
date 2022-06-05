@@ -41,7 +41,7 @@ async function getReceiver (id:string) {
    return receiver;
 }
 
-export default {
+export {
    sendReport,
    getReportsById,
    getSenderOrReceiver

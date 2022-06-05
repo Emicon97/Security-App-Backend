@@ -1,6 +1,6 @@
 import { Router } from 'express';
-const { logIn } = require('../controller/logInController');
-const { getUserById } = require('../controller/userController');
+import { logIn } from '../controller/logInController';
+import { getUserById } from '../controller/userController';
 import jwt from 'jsonwebtoken';
 
 const router = Router();
@@ -9,14 +9,14 @@ router.post('/', async(req, res, next)=>{
    try{
        let {dni, password}= req.body;
        let findUser = await logIn(dni, password);
-      
-       if(findUser!==false){
+      console.log(findUser)
+       if(findUser){
             const token = jwt.sign({_id:findUser.id}, process.env.TOKEN_SECRET || 'tokenPass', {
                expiresIn:60*60*24
             })
             let dataUser = await getUserById(findUser.id);
             dataUser.push(token);
-            res.json(dataUser);
+            res.cookie('auth-token', token).json(dataUser);
        } else {
          res.redirect('/');
        }

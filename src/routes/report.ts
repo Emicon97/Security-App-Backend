@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
-const {  sendReport, getReportsById, getSenderOrReceiver } = require('../controller/reportController');
+import { sendReport, getReportsById, getSenderOrReceiver } from '../controller/reportController';
 
 const router = Router();
 

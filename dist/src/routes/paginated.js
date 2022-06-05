@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const verifyToken_1 = require("../libs/verifyToken");
-const { getEmployeesPaginatedManager, getTodosPaginatedManager } = require('../controller/paginatedController');
+const paginatedController_1 = require("../controller/paginatedController");
 const router = (0, express_1.Router)();
 //*Paginado :id User Boss/Supervisor
 //http://localhost:3001/paginated/:id?limit=limit&skip=skip&name=name
@@ -20,7 +20,7 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
     let { limit, skip } = req.query;
     let { name } = req.query;
     try {
-        let response = yield getEmployeesPaginatedManager(id, limit, skip, name);
+        let response = yield (0, paginatedController_1.getEmployeesPaginatedManager)(id, limit, skip, name);
         res.json(response);
     }
     catch (error) {
@@ -34,7 +34,7 @@ router.get('/todos/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(
     let { limit, skip } = req.query;
     let { name } = req.query;
     try {
-        let response = yield getTodosPaginatedManager(id, limit, skip, name);
+        let response = yield (0, paginatedController_1.getTodosPaginatedManager)(id, limit, skip, name);
         res.json(response);
     }
     catch (error) {

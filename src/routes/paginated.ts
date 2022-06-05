@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
-const { getEmployeesPaginatedManager, getTodosPaginatedManager }= require('../controller/paginatedController');
+import { getEmployeesPaginatedManager, getTodosPaginatedManager } from '../controller/paginatedController';
 const router = Router();
 
 //*Paginado :id User Boss/Supervisor
