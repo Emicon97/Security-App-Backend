@@ -4,7 +4,7 @@
   "description": "Back-Side config.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.ts",
+    "start": "node --loader ts-node/esm ./index.ts",
     "tsc": "tsc",
     "test": "test",
     "dev": "ts-node-dev index.ts"
