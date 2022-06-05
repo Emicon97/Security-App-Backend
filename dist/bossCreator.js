@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 console.log('entré');
+require('dotenv').config();
 const user_1 = require("./src/models/user");
 function bossCreator() {
     return __awaiter(this, void 0, void 0, function* () {

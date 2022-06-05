@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { prop, Ref, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
 @modelOptions({options: { allowMixed: Severity.ALLOW }})
 class User {

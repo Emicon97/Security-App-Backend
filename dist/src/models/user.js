@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.neighbourModel = exports.watcherModel = exports.supervisorModel = exports.bossModel = exports.Neighbour = exports.Watcher = exports.Supervisor = exports.Boss = void 0;
+require('dotenv').config();
 const typegoose_1 = require("@typegoose/typegoose");
 let User = class User {
 };

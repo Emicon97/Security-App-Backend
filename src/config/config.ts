@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config();
+dotenv.config({ override: true });
 
 export default {
     MONGO_USER: process.env.MONGO_USER ||  'admin',

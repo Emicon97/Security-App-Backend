@@ -1,4 +1,5 @@
 console.log('entré')
+require('dotenv').config();
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from './src/models/user';
 
 async function bossCreator () {

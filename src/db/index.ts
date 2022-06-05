@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
-// import config from '../config/config'
-const { MONGODB_URL } = process.env;
+import config from '../config/config';
 
 const dbConnection = async () => {
-  return await mongoose.connect(MONGODB_URL, {
+  return await mongoose.connect(`mongodb+srv://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_HOST}/${config.MONGO_CONFIG}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
     .then(() => {
       console.log('DB Online');
+    })
+    .catch((err:any) => {
+      console.log(err)
     })
 };
 
