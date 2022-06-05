@@ -6,7 +6,6 @@ const routes = require('./routes/index');
 
 const app = express();
 
-app.set('port', config.PORT);
 
 app.use(morgan('dev'));
 app.use(cors());
