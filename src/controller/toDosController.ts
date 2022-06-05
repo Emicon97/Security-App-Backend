@@ -152,7 +152,7 @@ async function deleteToDo (id:string) {
   }
 }
 
-module.exports = {
+export default  {
   getToDosManager,
   getToDos,
   getToDosByRole,
@@ -161,4 +161,4 @@ module.exports = {
   assignTask,
   updateToDo,
   deleteToDo
-}
+};

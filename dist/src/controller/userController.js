@@ -201,10 +201,10 @@ function dniCHecker(dni) {
         });
     });
 }
-module.exports = {
+exports.default = {
     signUp,
     getUserById,
     getUserByHierarchy,
     deleteUser,
-    updateUser,
+    updateUser
 };

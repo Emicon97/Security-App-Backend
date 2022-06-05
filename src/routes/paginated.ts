@@ -31,11 +31,4 @@ router.get('/todos/:id', TokenValidation, async(req, res) => {
     }
 })
 
-
-
-
-
-
-
-
 export default router;

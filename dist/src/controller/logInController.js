@@ -34,6 +34,6 @@ function logIn(dni, password) {
         }
     });
 }
-module.exports = {
+exports.default = {
     logIn
 };

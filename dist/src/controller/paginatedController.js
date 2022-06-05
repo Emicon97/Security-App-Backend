@@ -141,7 +141,7 @@ function getToDosPaginatedFilterName(id, limit, skip, name) {
         }
     });
 }
-module.exports = {
+exports.default = {
     getEmployeesPaginatedManager,
     getTodosPaginatedManager,
 };

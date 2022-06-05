@@ -1,4 +1,4 @@
-import { prop, Ref, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
+import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
 import { Boss, Supervisor, Watcher } from './user';
 
 class Report {

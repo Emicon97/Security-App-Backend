@@ -200,10 +200,10 @@ async function dniCHecker (dni:number) {
     })
 }
 
-module.exports = {
+export default {
     signUp,
     getUserById,
     getUserByHierarchy,
     deleteUser,
-    updateUser,
-}
+    updateUser
+};

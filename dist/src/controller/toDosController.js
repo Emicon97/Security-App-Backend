@@ -180,7 +180,7 @@ function deleteToDo(id) {
         }
     });
 }
-module.exports = {
+exports.default = {
     getToDosManager,
     getToDos,
     getToDosByRole,

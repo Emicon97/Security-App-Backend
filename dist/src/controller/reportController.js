@@ -61,7 +61,7 @@ function getReceiver(id) {
         return receiver;
     });
 }
-module.exports = {
+exports.default = {
     sendReport,
     getReportsById,
     getSenderOrReceiver

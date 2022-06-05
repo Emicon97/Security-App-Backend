@@ -21,10 +21,8 @@ app_1.default.set('port', process.env.PORT || 3001);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0, index_1.default)();
-        // app.listen(app.get('port'), () => {
-        app_1.default.listen(app_1.default.get("port"), () => {
-            console.log(`server on port`);
-            // console.log(`server on port`, app.get('port'))
+        app_1.default.listen(app_1.default.get('port'), () => {
+            console.log('server on port');
         });
     });
 }

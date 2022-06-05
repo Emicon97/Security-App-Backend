@@ -9,16 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require('mongoose');
-// import config from '../config/config'
-const { MONGODB_URL } = process.env;
-const dbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield mongoose.connect(MONGODB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-        .then(() => {
-        console.log('DB Online');
+console.log('entré');
+const user_1 = require("./src/models/user");
+function bossCreator() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const boss = yield user_1.bossModel.create({
+            name: 'Emi',
+            lastName: 'Conde',
+            password: 'granjefe@biggestjefe.password',
+            dni: 88888888,
+            email: 'disizmuymale',
+            telephone: 18181818,
+            environment: 'Mi casa'
+        });
+        const saveUser = yield boss.save();
+        return saveUser;
     });
-});
-exports.default = dbConnection;
+}
+bossCreator();

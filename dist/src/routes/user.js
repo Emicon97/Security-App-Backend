@@ -19,6 +19,9 @@ const { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } = requ
 const router = (0, express_1.Router)();
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
+router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("funciona");
+}));
 router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { id } = req.params;

@@ -14,4 +14,4 @@ router.use('/todos', todosRoutes);
 router.use('/report', reportRoutes);
 router.use('/paginated', paginated)
 
-module.exports = router;
+export = router;
