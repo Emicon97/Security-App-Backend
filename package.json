@@ -4,10 +4,10 @@
   "description": "Back-Side config.",
   "main": "index.js",
   "scripts": {
-    "node": ".dist/index.js",
-    "tsc": "tsc",
-    "test": "test",
-    "build": "rimraf ./dist && tsc"
+    "start": "node ./dist/index.js",
+    "build": "npm install && tsc",
+    "dev": "ts-node-dev --respawn src/app.ts",
+    "test": "jest --collectCoverage=false"
   },
   "repository": {
     "type": "git",
