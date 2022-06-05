@@ -10,9 +10,6 @@ const dbConnection = async () => {
     .then(() => {
       console.log('DB Online');
     })
-    // .catch((err) => {
-    //   console.error('Error connecting to mongo', err);
-    // });
 };
 
 export default dbConnection;

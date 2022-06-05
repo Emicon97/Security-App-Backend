@@ -1,7 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import config from './config/config';
 const routes = require('./routes/index');
 
 const app = express();
