@@ -28,7 +28,8 @@ router.post('/boss', async (req, res) => {
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
 router.get("/", async (req, res) => {
-    res.send("funciona")
+    let all = await bossModel.find();
+    res.send(all);
 })
 router.get('/:id', TokenValidation, async(req,res) => {
     try{
