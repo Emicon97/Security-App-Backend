@@ -21,6 +21,7 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     try {
         let { dni, password } = req.body;
         let findUser = yield (0, logInController_1.logIn)(dni, password);
+        console.log('hola');
         console.log(findUser);
         if (findUser) {
             const token = jsonwebtoken_1.default.sign({ _id: findUser.id }, process.env.TOKEN_SECRET || 'tokenPass', {
@@ -36,6 +37,7 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         if (error instanceof Error) {
+            console.log();
             res.status(404).json(error);
         }
         else {
