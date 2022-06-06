@@ -36,7 +36,7 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         if (error instanceof Error) {
-            res.status(404).json(error.message);
+            res.status(404).json(error);
         }
         else {
             console.log('Unexpected Error', error);

@@ -22,7 +22,7 @@ router.post('/', async(req, res, next)=>{
        }
    } catch (error) {
       if (error instanceof Error) {
-         res.status(404).json(error.message);
+         res.status(404).json(error);
       } else {
          console.log('Unexpected Error', error);
       }
