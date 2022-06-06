@@ -69,6 +69,10 @@ router.get('/employees/:id', verifyToken_1.TokenValidation, (req, res) => __awai
             let userData = yield (0, userController_1.getUserByHierarchy)(id, name);
             res.json(userData);
         }
+        else {
+            let userData = yield (0, userController_1.getUserByHierarchy)(id);
+            res.json(userData);
+        }
     }
     catch (error) {
         if (error instanceof Error) {
