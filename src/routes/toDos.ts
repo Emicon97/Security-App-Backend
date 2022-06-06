@@ -29,6 +29,9 @@ router.get('/:id', TokenValidation, async (req, res) => {
         if (typeof priority === 'string') {
             let list = await getToDosManager(id, priority);
             res.status(200).json(list);
+        } else {
+            let list = await getToDosManager(id);
+            res.status(200).json(list);
         }
     }catch(error){
         if (error instanceof Error) {
@@ -68,6 +71,9 @@ router.get('/:id/:status', TokenValidation, async (req, res) => {
     try{
         if (typeof priority === 'string') {
             let toDos = await getToDosManager(id, priority, status);
+            res.status(200).json(toDos);
+        } else {
+            let toDos = await getToDosManager(id, undefined, status);
             res.status(200).json(toDos);
         }
     }catch(error){

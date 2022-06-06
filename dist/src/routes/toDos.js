@@ -39,6 +39,10 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
             let list = yield (0, toDosController_1.getToDosManager)(id, priority);
             res.status(200).json(list);
         }
+        else {
+            let list = yield (0, toDosController_1.getToDosManager)(id);
+            res.status(200).json(list);
+        }
     }
     catch (error) {
         if (error instanceof Error) {
@@ -77,6 +81,10 @@ router.get('/:id/:status', verifyToken_1.TokenValidation, (req, res) => __awaite
     try {
         if (typeof priority === 'string') {
             let toDos = yield (0, toDosController_1.getToDosManager)(id, priority, status);
+            res.status(200).json(toDos);
+        }
+        else {
+            let toDos = yield (0, toDosController_1.getToDosManager)(id, undefined, status);
             res.status(200).json(toDos);
         }
     }
