@@ -8,14 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require('mongoose');
-const config_1 = __importDefault(require("../config/config"));
 const dbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield mongoose.connect(`mongodb+srv://${config_1.default.MONGO_USER}:${config_1.default.MONGO_PASSWORD}@${config_1.default.MONGO_HOST}/${config_1.default.MONGO_CONFIG}`, {
+    return yield mongoose.connect(`mongodb+srv://emi:p5qdrHQR7Qc5JnOa@centinel.urpnz5k.mongodb.net/?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
