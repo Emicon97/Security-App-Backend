@@ -69,6 +69,7 @@ router.get('/employees/:id', TokenValidation, async (req, res)=> {
 //http://localhost:3001/user  //*datos enviados por body
 router.post('/:id', TokenValidation, async (req, res) => {
     let { id } = req.params;
+    console.log(id);
     let { name, lastName, password, dni, email, telephone, environment, workingHours, profilePic } = req.body;
     try {
         let data = await signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic);
