@@ -9,8 +9,7 @@ router.post('/', async(req, res, next)=>{
    try{
       let {dni, password}= req.body;
       let findUser = await logIn(dni, password);
-      console.log('hola');
-      console.log(findUser)
+
        if(findUser){
             const token = jwt.sign({_id:findUser.id}, process.env.TOKEN_SECRET || 'tokenPass', {
                expiresIn:60*60*24
@@ -23,7 +22,6 @@ router.post('/', async(req, res, next)=>{
        }
    } catch (error) {
       if (error instanceof Error) {
-         console.log()
          res.status(404).json(error);
       } else {
          console.log('Unexpected Error', error);
