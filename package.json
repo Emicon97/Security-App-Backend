@@ -8,8 +8,7 @@
     "build": "tsc --build",
     "start:dev": "nodemon -L",
     "watch": "tsc ./src/routes/user.ts --outFile ./dist/src/routes/user.js -w",
-    "test": "jest --collectCoverage=false",
-    "boss": "node ./dist/bossCreator.js"
+    "test": "jest --collectCoverage=false"
   },
   "repository": {
     "type": "git",
