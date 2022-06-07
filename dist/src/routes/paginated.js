@@ -24,7 +24,12 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
         res.json(response);
     }
     catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
     }
 }));
 //*Paginado de :tareas User Supervisor/watcher
@@ -38,7 +43,12 @@ router.get('/todos/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(
         res.json(response);
     }
     catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
     }
 }));
 exports.default = router;
