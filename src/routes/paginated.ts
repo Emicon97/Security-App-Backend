@@ -10,10 +10,14 @@ router.get('/:id', TokenValidation, async (req, res) => {
     let { limit, skip }: any = req.query;
     let { name }:any = req.query;
     try{
-        let response = await getEmployeesPaginatedManager(id, limit, skip, name)
-        res.json(response)
-    }catch(error){
-        console.log(error)
+        let response = await getEmployeesPaginatedManager(id, limit, skip, name);
+        res.json(response);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        } else {
+            console.log('Unexpected Error', error);
+        }
     }
 })
 
@@ -26,8 +30,12 @@ router.get('/todos/:id', TokenValidation, async(req, res) => {
     try{
         let response = await getTodosPaginatedManager(id, limit, skip, name);
         res.json(response)
-    }catch(error){
-        console.log(error)
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        } else {
+            console.log('Unexpected Error', error);
+        }
     }
 })
 

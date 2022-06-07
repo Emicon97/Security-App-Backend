@@ -17,7 +17,7 @@ function escapeStringRegexp(string:any) {
 //* limit = cantidad de usuario para ver por pagina
 //* skip = Desde que usuario empieza a contar ej: 0 igual al primer usuario
 //* name = realiza el paginado segun el resultado de la busqueda de nombre
-async function getEmployeesPaginatedManager (id:string, limit:number, skip:number, name:string){
+async function getEmployeesPaginatedManager (id:string, limit:number, skip:number, name?:string){
     try{
         if(id && limit && skip && !name){
             return await getPaginatedAll(id, limit, skip)
@@ -34,12 +34,12 @@ async function getPaginatedAll (id:string, limit:number, skip:number){
     try{
         let boss = await bossModel.findById(id);
         if(boss){
-            return await bossModel.findOne({id:id}).populate({
+            return await bossModel.findOne({ id }).populate({
                     path:'supervisor',
                     options:{ limit, skip }
                 });
         }else{
-            return await supervisorModel.findOne({id:id}).populate(
+            return await supervisorModel.findOne({ id }).populate(
                 {
                     path:'watcher',
                     options:{ limit, skip }
