@@ -52,7 +52,7 @@ function getPaginatedAll(id, limit, skip) {
         try {
             let boss = yield user_1.bossModel.findById(id);
             if (boss) {
-                let supervisors = yield user_1.bossModel.findOne({ id }).populate({
+                let supervisors = yield user_1.bossModel.findById(id).populate({
                     path: 'supervisor',
                     options: { limit, skip }
                 });
@@ -60,7 +60,7 @@ function getPaginatedAll(id, limit, skip) {
                     return supervisors.supervisor;
             }
             else {
-                const watchers = yield user_1.supervisorModel.findOne({ id }).populate({
+                const watchers = yield user_1.supervisorModel.findById(id).populate({
                     path: 'watcher',
                     options: { limit, skip }
                 });

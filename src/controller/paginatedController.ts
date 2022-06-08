@@ -34,13 +34,13 @@ async function getPaginatedAll (id:string, limit:number, skip:number){
     try{
         let boss = await bossModel.findById(id);
         if(boss){
-            let supervisors = await bossModel.findOne({ id }).populate({
+            let supervisors = await bossModel.findById(id).populate({
                     path:'supervisor',
                     options:{ limit, skip }
                 });
             if (supervisors) return supervisors.supervisor;
         }else{
-            const watchers =  await supervisorModel.findOne({ id }).populate(
+            const watchers =  await supervisorModel.findById(id).populate(
                 {
                     path:'watcher',
                     options:{ limit, skip }
