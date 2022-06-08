@@ -141,8 +141,24 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
     return __awaiter(this, void 0, void 0, function* () {
         const options = { new: true };
         const role = yield roleIdentifier(id);
+        if (role === 'boss') {
+            let data = user_1.bossModel.findByIdAndUpdate(id, {
+                password,
+                email,
+                telephone,
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'boss'];
+                }
+            });
+            if (data !== undefined)
+                return data;
+        }
         if (role === 'supervisor') {
-            const response = yield user_1.supervisorModel.findByIdAndUpdate(id, {
+            let data = user_1.supervisorModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -150,11 +166,17 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 workingHours,
                 profilePic,
                 address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'supervisor'];
+                }
             });
-            return response;
+            if (data !== undefined)
+                return data;
         }
         if (role === 'watcher') {
-            const response = yield user_1.watcherModel.findByIdAndUpdate(id, {
+            let data = user_1.watcherModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -162,10 +184,16 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 workingHours,
                 profilePic,
                 address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'watcher'];
+                }
             });
-            return 'Parameters updated successfully.';
+            if (data !== undefined)
+                return data;
         }
-        return 'The parameters could not be updated.';
+        throw new Error("Nothing could be updated.");
     });
 }
 exports.updateUser = updateUser;

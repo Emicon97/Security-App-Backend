@@ -137,12 +137,28 @@ async function updateUser (
     workingHours?:string,
     profilePic?:string,
     address?:string
-    ):Promise<string> {
+    ):Promise<[ Boss | Supervisor | Watcher, string ]> {
     const options = {new:true}
     const role = await roleIdentifier(id);
+
+    if (role === 'boss') {
+        let data:any = bossModel.findByIdAndUpdate(id,{
+              password,
+              email,
+              telephone,
+              profilePic,
+              address
+          },options)
+          .then((response)=>{
+              if(response !== null){
+                  return [response, 'boss']
+              }
+          })
+          if(data !== undefined) return data
+      } 
         
     if (role === 'supervisor') {
-   const response:any = await supervisorModel.findByIdAndUpdate(id,{
+      let data:any = supervisorModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -150,12 +166,16 @@ async function updateUser (
             workingHours,
             profilePic,
             address
+        },options)
+        .then((response)=>{
+            if(response !== null){
+                return [response, 'supervisor']
+            }
         })
-        
-        return response
-    }
+        if(data !== undefined) return data
+    } 
     if (role === 'watcher') {
-       const response: any = await watcherModel.findByIdAndUpdate(id,{
+      let data:any = watcherModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -163,10 +183,16 @@ async function updateUser (
             workingHours,
             profilePic,
             address
-        })
-        return 'Parameters updated successfully.'
+        }, options)
+            .then((response)=>{
+                if(response !== null){
+                    return [response, 'watcher']
+                }
+            }) 
+    if(data !== undefined) return data    
     }
-    return 'The parameters could not be updated.';
+    
+    throw new Error("Nothing could be updated.")
 }
 
 async function roleIdentifier (id:string):Promise<string> { 

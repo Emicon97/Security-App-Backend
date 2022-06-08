@@ -111,10 +111,12 @@ router.put('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
     let { password, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try {
         let data = yield (0, userController_1.updateUser)(id, password, email, telephone, environment, workingHours, profilePic, address);
+        console.log(data);
         res.json(data);
     }
     catch (error) {
         if (error instanceof Error) {
+            console.log(error);
             res.status(404).json(error.message);
         }
         else {
