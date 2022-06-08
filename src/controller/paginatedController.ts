@@ -47,6 +47,7 @@ async function getPaginatedAll (id:string, limit:number, skip:number){
                 });
             if (watchers) return watchers.watcher;
         }
+        return [];
     }catch(error:any){
         throw new Error('There are no employees.');
     }
