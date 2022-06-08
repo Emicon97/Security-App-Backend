@@ -137,28 +137,29 @@ function deleteUser(id, role) {
 exports.deleteUser = deleteUser;
 function updateUser(id, password, email, telephone, environment, workingHours, profilePic) {
     return __awaiter(this, void 0, void 0, function* () {
+        const options = { new: true };
         const role = yield roleIdentifier(id);
         if (role === 'supervisor') {
-            yield user_1.supervisorModel.findByIdAndUpdate(id, {
+            const response = yield user_1.supervisorModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
                 environment,
                 workingHours,
                 profilePic
-            });
-            return 'Parameters updated successfully.';
+            }, options);
+            return response;
         }
         if (role === 'watcher') {
-            yield user_1.watcherModel.findByIdAndUpdate(id, {
+            const response = yield user_1.watcherModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
                 environment,
                 workingHours,
                 profilePic
-            });
-            return 'Parameters updated successfully.';
+            }, options);
+            return response;
         }
         return 'The parameters could not be updated.';
     });
