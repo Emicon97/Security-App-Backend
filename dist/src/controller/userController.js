@@ -148,16 +148,10 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 telephone,
                 environment,
                 workingHours,
-<<<<<<< HEAD
-                profilePic
-            }, options);
-            return response;
-=======
                 profilePic,
                 address
             });
-            return 'Parameters updated successfully.';
->>>>>>> de6aa9e95922f82d86f90af491b9240b9d3a41ca
+            return response;
         }
         if (role === 'watcher') {
             const response = yield user_1.watcherModel.findByIdAndUpdate(id, {
@@ -166,16 +160,10 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 telephone,
                 environment,
                 workingHours,
-<<<<<<< HEAD
-                profilePic
-            }, options);
-            return response;
-=======
                 profilePic,
                 address
             });
             return 'Parameters updated successfully.';
->>>>>>> de6aa9e95922f82d86f90af491b9240b9d3a41ca
         }
         return 'The parameters could not be updated.';
     });
