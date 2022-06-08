@@ -34,19 +34,21 @@ async function getPaginatedAll (id:string, limit:number, skip:number){
     try{
         let boss = await bossModel.findById(id);
         if(boss){
-            return await bossModel.findOne({ id }).populate({
+            let supervisors = await bossModel.findOne({ id }).populate({
                     path:'supervisor',
                     options:{ limit, skip }
                 });
+            if (supervisors) return supervisors.supervisor;
         }else{
-            return await supervisorModel.findOne({ id }).populate(
+            const watchers =  await supervisorModel.findOne({ id }).populate(
                 {
                     path:'watcher',
                     options:{ limit, skip }
                 });
+            if (watchers) return watchers.watcher;
         }
     }catch(error:any){
-        throw new Error(error.message);
+        throw new Error('There are no employees.');
     }
 }
 

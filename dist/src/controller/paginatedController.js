@@ -52,20 +52,24 @@ function getPaginatedAll(id, limit, skip) {
         try {
             let boss = yield user_1.bossModel.findById(id);
             if (boss) {
-                return yield user_1.bossModel.findOne({ id }).populate({
+                let supervisors = yield user_1.bossModel.findOne({ id }).populate({
                     path: 'supervisor',
                     options: { limit, skip }
                 });
+                if (supervisors)
+                    return supervisors.supervisor;
             }
             else {
-                return yield user_1.supervisorModel.findOne({ id }).populate({
+                const watchers = yield user_1.supervisorModel.findOne({ id }).populate({
                     path: 'watcher',
                     options: { limit, skip }
                 });
+                if (watchers)
+                    return watchers.watcher;
             }
         }
         catch (error) {
-            throw new Error(error.message);
+            throw new Error('There are no employees.');
         }
     });
 }
