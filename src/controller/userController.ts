@@ -72,7 +72,9 @@ async function signUp (
     telephone:number,
     environment:string,
     workingHours?:string,
-    profilePic?:string) {
+    profilePic?:string,
+    address?:string
+    ) {
         
     await dniCHecker(dni);
     
@@ -89,11 +91,12 @@ async function signUp (
                 telephone,
                 environment,
                 workingHours: workingHours ? workingHours : undefined,
-                profilePic: profilePic ? profilePic : undefined
-            })
-            const saveUser:any = await supervisor.save();
+                profilePic: profilePic ? profilePic : undefined,
+                address: address ? address : undefined
+            });
+            const saveSupervisor:any = await supervisor.save();
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-            return saveUser;
+            return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
                 name,
@@ -104,11 +107,12 @@ async function signUp (
                 telephone,
                 environment,
                 workingHours: workingHours ? workingHours : undefined,
-                profilePic: profilePic ? profilePic : undefined
-            })
-            const saveUser2:any = await watcher.save();
+                profilePic: profilePic ? profilePic : undefined,
+                address: address ? address : undefined
+            });
+            const saveWatcher:any = await watcher.save();
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-            return saveUser2;
+            return saveWatcher;
     }
 }
 
@@ -131,7 +135,8 @@ async function updateUser (
     telephone?:number,
     environment?:string,
     workingHours?:string,
-    profilePic?:string
+    profilePic?:string,
+    address?:string
     ):Promise<string> {
 
     const role = await roleIdentifier(id);
@@ -143,7 +148,8 @@ async function updateUser (
             telephone,
             environment,
             workingHours,
-            profilePic
+            profilePic,
+            address
         })
         
         return 'Parameters updated successfully.'
@@ -155,7 +161,8 @@ async function updateUser (
             telephone,
             environment,
             workingHours,
-            profilePic
+            profilePic,
+            address
         })
         return 'Parameters updated successfully.'
     }

@@ -72,9 +72,9 @@ router.get('/employees/:id', TokenValidation, async (req, res)=> {
 //http://localhost:3001/user  //*datos enviados por body
 router.post('/:id', TokenValidation, async (req, res) => {
     let { id } = req.params;
-    let { name, lastName, password, dni, email, telephone, environment, workingHours, profilePic } = req.body;
+    let { name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try {
-        let data = await signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic);
+        let data = await signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address);
         const token = jwt.sign({_id:data.id}, process.env.TOKEN_SECRET||'tokenPass',{
             expiresIn:60*60*24
         })
@@ -92,9 +92,9 @@ router.post('/:id', TokenValidation, async (req, res) => {
 //http://locahost:3001/user/:id   //*id por params, datos por body
 router.put('/:id', TokenValidation, async (req, res)=>{
     let { id } = req.params;
-    let { password, email, telephone, environment, workingHours, profilePic } = req.body;
+    let { password, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try{
-        let data = await updateUser(id, password, email, telephone, environment, workingHours, profilePic);
+        let data = await updateUser(id, password, email, telephone, environment, workingHours, profilePic, address);
         res.json(data)
     }catch(error){
         if (error instanceof Error) {

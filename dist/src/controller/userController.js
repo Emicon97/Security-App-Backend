@@ -81,7 +81,7 @@ function getEmployeeByName(id, name) {
         }
     });
 }
-function signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic) {
+function signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
         yield dniCHecker(dni);
         let creator = yield roleIdentifier(id);
@@ -96,11 +96,12 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     telephone,
                     environment,
                     workingHours: workingHours ? workingHours : undefined,
-                    profilePic: profilePic ? profilePic : undefined
+                    profilePic: profilePic ? profilePic : undefined,
+                    address: address ? address : undefined
                 });
-                const saveUser = yield supervisor.save();
+                const saveSupervisor = yield supervisor.save();
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-                return saveUser;
+                return saveSupervisor;
             case 'supervisor':
                 const watcher = yield user_1.watcherModel.create({
                     name,
@@ -111,11 +112,12 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     telephone,
                     environment,
                     workingHours: workingHours ? workingHours : undefined,
-                    profilePic: profilePic ? profilePic : undefined
+                    profilePic: profilePic ? profilePic : undefined,
+                    address: address ? address : undefined
                 });
-                const saveUser2 = yield watcher.save();
+                const saveWatcher = yield watcher.save();
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-                return saveUser2;
+                return saveWatcher;
         }
     });
 }
@@ -135,7 +137,7 @@ function deleteUser(id, role) {
     });
 }
 exports.deleteUser = deleteUser;
-function updateUser(id, password, email, telephone, environment, workingHours, profilePic) {
+function updateUser(id, password, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
         const role = yield roleIdentifier(id);
         if (role === 'supervisor') {
@@ -145,7 +147,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 telephone,
                 environment,
                 workingHours,
-                profilePic
+                profilePic,
+                address
             });
             return 'Parameters updated successfully.';
         }
@@ -156,7 +159,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 telephone,
                 environment,
                 workingHours,
-                profilePic
+                profilePic,
+                address
             });
             return 'Parameters updated successfully.';
         }

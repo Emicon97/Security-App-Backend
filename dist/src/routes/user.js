@@ -87,9 +87,9 @@ router.get('/employees/:id', verifyToken_1.TokenValidation, (req, res) => __awai
 //http://localhost:3001/user  //*datos enviados por body
 router.post('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { id } = req.params;
-    let { name, lastName, password, dni, email, telephone, environment, workingHours, profilePic } = req.body;
+    let { name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try {
-        let data = yield (0, userController_1.signUp)(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic);
+        let data = yield (0, userController_1.signUp)(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address);
         const token = jsonwebtoken_1.default.sign({ _id: data.id }, process.env.TOKEN_SECRET || 'tokenPass', {
             expiresIn: 60 * 60 * 24
         });
@@ -108,9 +108,9 @@ router.post('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 
 //http://locahost:3001/user/:id   //*id por params, datos por body
 router.put('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { id } = req.params;
-    let { password, email, telephone, environment, workingHours, profilePic } = req.body;
+    let { password, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try {
-        let data = yield (0, userController_1.updateUser)(id, password, email, telephone, environment, workingHours, profilePic);
+        let data = yield (0, userController_1.updateUser)(id, password, email, telephone, environment, workingHours, profilePic, address);
         res.json(data);
     }
     catch (error) {

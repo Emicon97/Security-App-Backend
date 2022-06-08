@@ -42,6 +42,10 @@ __decorate([
     (0, typegoose_1.prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "telephone", void 0);
+__decorate([
+    (0, typegoose_1.prop)(),
+    __metadata("design:type", String)
+], User.prototype, "address", void 0);
 User = __decorate([
     (0, typegoose_1.modelOptions)({ options: { allowMixed: typegoose_1.Severity.ALLOW } })
 ], User);
