@@ -140,9 +140,25 @@ async function updateUser (
     ):Promise<[ Boss | Supervisor | Watcher, string ]> {
     const options = {new:true}
     const role = await roleIdentifier(id);
+
+    if (role === 'boss') {
+        let data:any = bossModel.findByIdAndUpdate(id,{
+              password,
+              email,
+              telephone,
+              profilePic,
+              address
+          },options)
+          .then((response)=>{
+              if(response !== null){
+                  return [response, 'boss']
+              }
+          })
+          if(data !== undefined) return data
+      } 
         
     if (role === 'supervisor') {
-      let data = supervisorModel.findByIdAndUpdate(id,{
+      let data:any = supervisorModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -156,10 +172,10 @@ async function updateUser (
                 return [response, 'supervisor']
             }
         })
-        
+        if(data !== undefined) return data
     } 
     if (role === 'watcher') {
-      let data = watcherModel.findByIdAndUpdate(id,{
+      let data:any = watcherModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -172,7 +188,8 @@ async function updateUser (
                 if(response !== null){
                     return [response, 'watcher']
                 }
-            })     
+            }) 
+    if(data !== undefined) return data    
     }
     
     throw new Error("Nothing could be updated.")

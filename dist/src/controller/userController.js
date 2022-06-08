@@ -141,8 +141,24 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
     return __awaiter(this, void 0, void 0, function* () {
         const options = { new: true };
         const role = yield roleIdentifier(id);
+        if (role === 'boss') {
+            let data = user_1.bossModel.findByIdAndUpdate(id, {
+                password,
+                email,
+                telephone,
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'boss'];
+                }
+            });
+            if (data !== undefined)
+                return data;
+        }
         if (role === 'supervisor') {
-            user_1.supervisorModel.findByIdAndUpdate(id, {
+            let data = user_1.supervisorModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -156,9 +172,11 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                     return [response, 'supervisor'];
                 }
             });
+            if (data !== undefined)
+                return data;
         }
         if (role === 'watcher') {
-            user_1.watcherModel.findByIdAndUpdate(id, {
+            let data = user_1.watcherModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -172,6 +190,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                     return [response, 'watcher'];
                 }
             });
+            if (data !== undefined)
+                return data;
         }
         throw new Error("Nothing could be updated.");
     });
