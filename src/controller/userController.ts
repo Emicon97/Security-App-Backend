@@ -133,31 +133,31 @@ async function updateUser (
     workingHours?:string,
     profilePic?:string
     ):Promise<string> {
-
+    const options = {new:true}
     const role = await roleIdentifier(id);
         
     if (role === 'supervisor') {
-    await supervisorModel.findByIdAndUpdate(id,{
+   const response:any = await supervisorModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
             environment,
             workingHours,
             profilePic
-        })
+        }, options)
         
-        return 'Parameters updated successfully.'
+        return response
     }
     if (role === 'watcher') {
-        await watcherModel.findByIdAndUpdate(id,{
+       const response: any = await watcherModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
             environment,
             workingHours,
             profilePic
-        })
-        return 'Parameters updated successfully.'
+        }, options)
+        return response
     }
     return 'The parameters could not be updated.';
 }
