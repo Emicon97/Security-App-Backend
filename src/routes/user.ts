@@ -95,9 +95,11 @@ router.put('/:id', TokenValidation, async (req, res)=>{
     let { password, email, telephone, environment, workingHours, profilePic, address } = req.body;
     try{
         let data = await updateUser(id, password, email, telephone, environment, workingHours, profilePic, address);
+        console.log(data)
         res.json(data)
     }catch(error){
         if (error instanceof Error) {
+            console.log(error)
             res.status(404).json(error.message);
         } else {
             console.log('Unexpected Error', error);
