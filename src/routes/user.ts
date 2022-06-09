@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
 import jwt from 'jsonwebtoken';
-import { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } from '../controller/userController';
+import { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser, searchEmployeeByFullName } from '../controller/userController';
 import { bossModel } from '../models/user';
 
 const router=Router();
@@ -122,6 +122,18 @@ router.delete('/:id', TokenValidation, async (req, res) => {
     }
 })
 
+router.get('/',TokenValidation,async(req,res)=>{
+    let {name, lastName} = req.query;
+    try{
+        res.json(await searchEmployeeByFullName(name, lastName))
+    }catch(error){
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        } else {
+            console.log('Unexpected Error', error);
+        }
+    }
+})
 
 
 export default router;

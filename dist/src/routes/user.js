@@ -140,4 +140,18 @@ router.delete('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(voi
         }
     }
 }));
+router.get('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let { name, lastName } = req.query;
+    try {
+        res.json(yield (0, userController_1.searchEmployeeByFullName)(name, lastName));
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
+    }
+}));
 exports.default = router;
