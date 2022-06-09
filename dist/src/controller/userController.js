@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
+exports.searchEmployeeByFullName = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -81,6 +81,36 @@ function getEmployeeByName(id, name) {
         }
     });
 }
+function searchEmployeeByFullName(name, lastName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (name.length > 0 && lastName === undefined) {
+            let findSupervisor = yield user_1.supervisorModel.find({ name });
+            let findGuard = yield user_1.watcherModel.find({ name });
+            let findSupervisorLN = yield user_1.supervisorModel.find({ lastName: name });
+            let findGuardLN = yield user_1.watcherModel.find({ lastName: name });
+            if (findSupervisor !== null)
+                return findSupervisor;
+            if (findGuard !== null)
+                return findGuard;
+            if (findSupervisorLN !== null)
+                return findSupervisorLN;
+            if (findGuardLN !== null)
+                return findGuardLN;
+            throw new Error('user not found');
+        }
+        if (name.length > 0 && lastName !== undefined) {
+            let findSupervisorFull = user_1.supervisorModel.find({ name, lastName: lastName });
+            let findGuardFull = user_1.watcherModel.find({ name, lastName: lastName });
+            if (findSupervisorFull !== null)
+                return findSupervisorFull;
+            if (findGuardFull !== null)
+                return findGuardFull;
+            throw new Error('user not found');
+        }
+        throw new Error('enter a name before searching');
+    });
+}
+exports.searchEmployeeByFullName = searchEmployeeByFullName;
 function signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
         yield dniCHecker(dni);
@@ -139,9 +169,26 @@ function deleteUser(id, role) {
 exports.deleteUser = deleteUser;
 function updateUser(id, password, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
+        const options = { new: true };
         const role = yield roleIdentifier(id);
+        if (role === 'boss') {
+            let data = user_1.bossModel.findByIdAndUpdate(id, {
+                password,
+                email,
+                telephone,
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'boss'];
+                }
+            });
+            if (data !== undefined)
+                return data;
+        }
         if (role === 'supervisor') {
-            yield user_1.supervisorModel.findByIdAndUpdate(id, {
+            let data = user_1.supervisorModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -149,11 +196,17 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 workingHours,
                 profilePic,
                 address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'supervisor'];
+                }
             });
-            return 'Parameters updated successfully.';
+            if (data !== undefined)
+                return data;
         }
         if (role === 'watcher') {
-            yield user_1.watcherModel.findByIdAndUpdate(id, {
+            let data = user_1.watcherModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
@@ -161,10 +214,16 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 workingHours,
                 profilePic,
                 address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'watcher'];
+                }
             });
-            return 'Parameters updated successfully.';
+            if (data !== undefined)
+                return data;
         }
-        return 'The parameters could not be updated.';
+        throw new Error("Nothing could be updated.");
     });
 }
 exports.updateUser = updateUser;

@@ -62,6 +62,28 @@ async function getEmployeeByName (id:string, name:string) {
     
 }
 
+async function searchEmployeeByFullName(name:any, lastName:any) {
+    if(name.length>0 && lastName===undefined){
+        let findSupervisor= await supervisorModel.find({name})
+        let findGuard = await watcherModel.find({name})
+        let findSupervisorLN= await supervisorModel.find({lastName:name})
+        let findGuardLN = await watcherModel.find({lastName:name})
+        if(findSupervisor!==null) return findSupervisor
+        if(findGuard!==null) return findGuard
+        if(findSupervisorLN!==null) return findSupervisorLN
+        if(findGuardLN!==null) return findGuardLN
+        throw new Error('user not found')
+    }
+    if(name.length>0 && lastName!==undefined){
+        let findSupervisorFull = supervisorModel.find({name,lastName:lastName})
+        let findGuardFull = watcherModel.find({name,lastName:lastName})
+        if(findSupervisorFull!==null) return findSupervisorFull
+        if(findGuardFull!==null) return findGuardFull
+        throw new Error('user not found')
+    }    
+    throw new Error('enter a name before searching')
+}
+
 async function signUp (
     id:string,
     name:string,
@@ -137,12 +159,28 @@ async function updateUser (
     workingHours?:string,
     profilePic?:string,
     address?:string
-    ):Promise<string> {
-
+    ):Promise<[ Boss | Supervisor | Watcher, string ]> {
+    const options = {new:true}
     const role = await roleIdentifier(id);
+
+    if (role === 'boss') {
+        let data:any = bossModel.findByIdAndUpdate(id,{
+              password,
+              email,
+              telephone,
+              profilePic,
+              address
+          },options)
+          .then((response)=>{
+              if(response !== null){
+                  return [response, 'boss']
+              }
+          })
+          if(data !== undefined) return data
+      } 
         
     if (role === 'supervisor') {
-    await supervisorModel.findByIdAndUpdate(id,{
+      let data:any = supervisorModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -150,12 +188,16 @@ async function updateUser (
             workingHours,
             profilePic,
             address
+        },options)
+        .then((response)=>{
+            if(response !== null){
+                return [response, 'supervisor']
+            }
         })
-        
-        return 'Parameters updated successfully.'
-    }
+        if(data !== undefined) return data
+    } 
     if (role === 'watcher') {
-        await watcherModel.findByIdAndUpdate(id,{
+      let data:any = watcherModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
@@ -163,10 +205,16 @@ async function updateUser (
             workingHours,
             profilePic,
             address
-        })
-        return 'Parameters updated successfully.'
+        }, options)
+            .then((response)=>{
+                if(response !== null){
+                    return [response, 'watcher']
+                }
+            }) 
+    if(data !== undefined) return data    
     }
-    return 'The parameters could not be updated.';
+    
+    throw new Error("Nothing could be updated.")
 }
 
 async function roleIdentifier (id:string):Promise<string> { 
@@ -212,5 +260,6 @@ export {
     getUserById,
     getUserByHierarchy,
     deleteUser,
-    updateUser
+    updateUser,
+    searchEmployeeByFullName
 };
