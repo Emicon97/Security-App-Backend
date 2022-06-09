@@ -2,35 +2,36 @@ import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
 import jwt from 'jsonwebtoken';
 import { signUp, getUserById, getUserByHierarchy, deleteUser, updateUser } from '../controller/userController';
-import { bossModel } from '../models/user';
+// import { bossModel } from '../models/user';
 
 const router=Router();
 
-router.post('/boss', async (req, res) => {
-    async function bossCreator () {
-        const boss = await bossModel.create({
-              name: 'Emi',
-              lastName: 'Conde',
-              password: 'granjefe@biggestjefe.password',
-              dni: 88888888,
-              email: 'disizmuymale',
-              telephone: 18181818,
-              environment: 'Mi casa'
-        })
-        const saveUser = await boss.save();
-        return saveUser;
-     }
+// router.post('/boss', async (req, res) => {
+//     async function bossCreator () {
+//         const boss = await bossModel.create({
+//               name: 'Emi',
+//               lastName: 'Conde',
+//               password: 'granjefe@biggestjefe.password',
+//               dni: 88888888,
+//               email: 'disizmuymale',
+//               telephone: 18181818,
+//               environment: 'Mi casa'
+//         })
+//         const saveUser = await boss.save();
+//         return saveUser;
+//      }
      
-    let boss = bossCreator();
-    res.json(boss);
-})
+//     let boss = bossCreator();
+//     res.json(boss);
+// })
 
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
-router.get("/", async (req, res) => {
-    let all = await bossModel.findById('629d3056eff8fb00c2265ac2');
-    res.send(all);
-})
+// router.get("/", async (req, res) => {
+//     let all = await bossModel.findById('629d3056eff8fb00c2265ac2');
+//     res.send(all);
+// })
+
 router.get('/:id', TokenValidation, async(req,res) => {
     try{
         let { id } = req.params;
@@ -123,6 +124,7 @@ router.delete('/:id', TokenValidation, async (req, res) => {
         }
     }
 })
+
 
 
 

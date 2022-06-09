@@ -16,33 +16,31 @@ const express_1 = require("express");
 const verifyToken_1 = require("../libs/verifyToken");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userController_1 = require("../controller/userController");
-const user_1 = require("../models/user");
+// import { bossModel } from '../models/user';
 const router = (0, express_1.Router)();
-router.post('/boss', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    function bossCreator() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const boss = yield user_1.bossModel.create({
-                name: 'Emi',
-                lastName: 'Conde',
-                password: 'granjefe@biggestjefe.password',
-                dni: 88888888,
-                email: 'disizmuymale',
-                telephone: 18181818,
-                environment: 'Mi casa'
-            });
-            const saveUser = yield boss.save();
-            return saveUser;
-        });
-    }
-    let boss = bossCreator();
-    res.json(boss);
-}));
+// router.post('/boss', async (req, res) => {
+//     async function bossCreator () {
+//         const boss = await bossModel.create({
+//               name: 'Emi',
+//               lastName: 'Conde',
+//               password: 'granjefe@biggestjefe.password',
+//               dni: 88888888,
+//               email: 'disizmuymale',
+//               telephone: 18181818,
+//               environment: 'Mi casa'
+//         })
+//         const saveUser = await boss.save();
+//         return saveUser;
+//      }
+//     let boss = bossCreator();
+//     res.json(boss);
+// })
 //* GET trae los usuarios segun el id desde la Base de Datos
 //http://localhost:3001/user/:id   //*id por params
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let all = yield user_1.bossModel.findById('629d3056eff8fb00c2265ac2');
-    res.send(all);
-}));
+// router.get("/", async (req, res) => {
+//     let all = await bossModel.findById('629d3056eff8fb00c2265ac2');
+//     res.send(all);
+// })
 router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { id } = req.params;

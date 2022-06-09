@@ -59,7 +59,6 @@ async function getEmployeeByName (id:string, name:string) {
     }else{
         return await supervisorModel.findById(id).populate({path:'watcher', match:{name:{$regex}}});
     }
-    
 }
 
 async function signUp (
