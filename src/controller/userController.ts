@@ -59,29 +59,6 @@ async function getEmployeeByName (id:string, name:string) {
     }else{
         return await supervisorModel.findById(id).populate({path:'watcher', match:{name:{$regex}}});
     }
-    
-}
-
-async function searchEmployeeByFullName(name:any, lastName:any) {
-    if(name.length>0 && lastName===undefined){
-        let findSupervisor= await supervisorModel.find({name})
-        let findGuard = await watcherModel.find({name})
-        let findSupervisorLN= await supervisorModel.find({lastName:name})
-        let findGuardLN = await watcherModel.find({lastName:name})
-        if(findSupervisor!==null) return findSupervisor
-        if(findGuard!==null) return findGuard
-        if(findSupervisorLN!==null) return findSupervisorLN
-        if(findGuardLN!==null) return findGuardLN
-        throw new Error('user not found')
-    }
-    if(name.length>0 && lastName!==undefined){
-        let findSupervisorFull = supervisorModel.find({name,lastName:lastName})
-        let findGuardFull = watcherModel.find({name,lastName:lastName})
-        if(findSupervisorFull!==null) return findSupervisorFull
-        if(findGuardFull!==null) return findGuardFull
-        throw new Error('user not found')
-    }    
-    throw new Error('enter a name before searching')
 }
 
 async function signUp (
@@ -260,6 +237,5 @@ export {
     getUserById,
     getUserByHierarchy,
     deleteUser,
-    updateUser,
-    searchEmployeeByFullName
+    updateUser
 };
