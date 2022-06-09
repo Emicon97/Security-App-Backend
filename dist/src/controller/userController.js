@@ -111,7 +111,7 @@ function searchEmployeeByFullName(name, lastName) {
     });
 }
 exports.searchEmployeeByFullName = searchEmployeeByFullName;
-function signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic) {
+function signUp(id, name, lastName, password, dni, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
         yield dniCHecker(dni);
         let creator = yield roleIdentifier(id);
@@ -126,11 +126,12 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     telephone,
                     environment,
                     workingHours: workingHours ? workingHours : undefined,
-                    profilePic: profilePic ? profilePic : undefined
+                    profilePic: profilePic ? profilePic : undefined,
+                    address: address ? address : undefined
                 });
-                const saveUser = yield supervisor.save();
+                const saveSupervisor = yield supervisor.save();
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-                return saveUser;
+                return saveSupervisor;
             case 'supervisor':
                 const watcher = yield user_1.watcherModel.create({
                     name,
@@ -141,11 +142,12 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     telephone,
                     environment,
                     workingHours: workingHours ? workingHours : undefined,
-                    profilePic: profilePic ? profilePic : undefined
+                    profilePic: profilePic ? profilePic : undefined,
+                    address: address ? address : undefined
                 });
-                const saveUser2 = yield watcher.save();
+                const saveWatcher = yield watcher.save();
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-                return saveUser2;
+                return saveWatcher;
         }
     });
 }
@@ -165,32 +167,63 @@ function deleteUser(id, role) {
     });
 }
 exports.deleteUser = deleteUser;
-function updateUser(id, password, email, telephone, environment, workingHours, profilePic) {
+function updateUser(id, password, email, telephone, environment, workingHours, profilePic, address) {
     return __awaiter(this, void 0, void 0, function* () {
+        const options = { new: true };
         const role = yield roleIdentifier(id);
+        if (role === 'boss') {
+            let data = user_1.bossModel.findByIdAndUpdate(id, {
+                password,
+                email,
+                telephone,
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'boss'];
+                }
+            });
+            if (data !== undefined)
+                return data;
+        }
         if (role === 'supervisor') {
-            yield user_1.supervisorModel.findByIdAndUpdate(id, {
+            let data = user_1.supervisorModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
                 environment,
                 workingHours,
-                profilePic
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'supervisor'];
+                }
             });
-            return 'Parameters updated successfully.';
+            if (data !== undefined)
+                return data;
         }
         if (role === 'watcher') {
-            yield user_1.watcherModel.findByIdAndUpdate(id, {
+            let data = user_1.watcherModel.findByIdAndUpdate(id, {
                 password,
                 email,
                 telephone,
                 environment,
                 workingHours,
-                profilePic
+                profilePic,
+                address
+            }, options)
+                .then((response) => {
+                if (response !== null) {
+                    return [response, 'watcher'];
+                }
             });
-            return 'Parameters updated successfully.';
+            if (data !== undefined)
+                return data;
         }
-        return 'The parameters could not be updated.';
+        throw new Error("Nothing could be updated.");
     });
 }
 exports.updateUser = updateUser;

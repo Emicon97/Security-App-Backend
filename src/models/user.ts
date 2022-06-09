@@ -23,6 +23,9 @@ class User {
 
     @prop({ required: true })
     public telephone: string;
+
+    @prop()
+    public address?: string;
 }
 
 export class Boss extends User {

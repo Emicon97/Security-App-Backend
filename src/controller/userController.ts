@@ -94,7 +94,9 @@ async function signUp (
     telephone:number,
     environment:string,
     workingHours?:string,
-    profilePic?:string) {
+    profilePic?:string,
+    address?:string
+    ) {
         
     await dniCHecker(dni);
     
@@ -111,11 +113,12 @@ async function signUp (
                 telephone,
                 environment,
                 workingHours: workingHours ? workingHours : undefined,
-                profilePic: profilePic ? profilePic : undefined
-            })
-            const saveUser:any = await supervisor.save();
+                profilePic: profilePic ? profilePic : undefined,
+                address: address ? address : undefined
+            });
+            const saveSupervisor:any = await supervisor.save();
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-            return saveUser;
+            return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
                 name,
@@ -126,11 +129,12 @@ async function signUp (
                 telephone,
                 environment,
                 workingHours: workingHours ? workingHours : undefined,
-                profilePic: profilePic ? profilePic : undefined
-            })
-            const saveUser2:any = await watcher.save();
+                profilePic: profilePic ? profilePic : undefined,
+                address: address ? address : undefined
+            });
+            const saveWatcher:any = await watcher.save();
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-            return saveUser2;
+            return saveWatcher;
     }
 }
 
@@ -153,35 +157,64 @@ async function updateUser (
     telephone?:number,
     environment?:string,
     workingHours?:string,
-    profilePic?:string
-    ):Promise<string> {
-
+    profilePic?:string,
+    address?:string
+    ):Promise<[ Boss | Supervisor | Watcher, string ]> {
+    const options = {new:true}
     const role = await roleIdentifier(id);
+
+    if (role === 'boss') {
+        let data:any = bossModel.findByIdAndUpdate(id,{
+              password,
+              email,
+              telephone,
+              profilePic,
+              address
+          },options)
+          .then((response)=>{
+              if(response !== null){
+                  return [response, 'boss']
+              }
+          })
+          if(data !== undefined) return data
+      } 
         
     if (role === 'supervisor') {
-    await supervisorModel.findByIdAndUpdate(id,{
+      let data:any = supervisorModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
             environment,
             workingHours,
-            profilePic
+            profilePic,
+            address
+        },options)
+        .then((response)=>{
+            if(response !== null){
+                return [response, 'supervisor']
+            }
         })
-        
-        return 'Parameters updated successfully.'
-    }
+        if(data !== undefined) return data
+    } 
     if (role === 'watcher') {
-        await watcherModel.findByIdAndUpdate(id,{
+      let data:any = watcherModel.findByIdAndUpdate(id,{
             password,
             email,
             telephone,
             environment,
             workingHours,
-            profilePic
-        })
-        return 'Parameters updated successfully.'
+            profilePic,
+            address
+        }, options)
+            .then((response)=>{
+                if(response !== null){
+                    return [response, 'watcher']
+                }
+            }) 
+    if(data !== undefined) return data    
     }
-    return 'The parameters could not be updated.';
+    
+    throw new Error("Nothing could be updated.")
 }
 
 async function roleIdentifier (id:string):Promise<string> { 
