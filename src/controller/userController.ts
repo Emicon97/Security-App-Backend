@@ -201,7 +201,7 @@ async function roleIdentifier (id:string):Promise<string> {
     if (isSupervisor !== null) return 'supervisor';
     const isWatcher = await watcherModel.findById(id); 
     if (isWatcher !== null) return 'watcher';
-    throw new Error ("No task has been found for this employee.");
+    throw new Error ("That employee was not found.");
 }
 
 async function dniCHecker (dni:number) {
@@ -232,10 +232,21 @@ async function dniCHecker (dni:number) {
     })
 }
 
+async function getSuperior (id:string):Promise<Boss | Supervisor> {
+    const supervisor = await  supervisorModel.findOne({})
+        .populate({path: 'watcher', match: id, select: '_id'})
+    if (supervisor) return supervisor._id;
+    const boss = await bossModel.findOne({})
+        .populate({path: 'supervisor', match: id});
+    if (boss) return boss._id;
+    throw new Error ('There was a problem with the hierarchy in the database. Cannot contact a superior.');
+}
+
 export {
     signUp,
     getUserById,
     getUserByHierarchy,
     deleteUser,
-    updateUser
+    updateUser,
+    getSuperior
 };

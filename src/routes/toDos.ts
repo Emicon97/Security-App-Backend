@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import { TokenValidation } from '../libs/verifyToken';
-import { getToDosManager, assignTask, updateToDo, deleteToDo, getByIdAndName } from '../controller/toDosController';
+import {
+    getToDosManager,
+    assignTask,
+    updateToDo,
+    deleteToDo,
+    getReportsFromTask
+} from '../controller/toDosController';
 
 const router = Router();
 
@@ -12,6 +18,20 @@ router.get('/', TokenValidation, async (req, res) => {
         let list = await getToDosManager();
         res.status(200).json(list);
     }catch(error){
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        } else {
+            console.log('Unexpected Error', error);
+        }
+    }
+})
+
+router.get('/reports/:id', TokenValidation,async (req, res) => {
+    try {
+        let { id } = req.params;
+        let reports = await getReportsFromTask(id);
+        res.status(200).json(reports);
+    } catch (error) {
         if (error instanceof Error) {
             res.status(404).json(error.message);
         } else {
@@ -42,40 +62,14 @@ router.get('/:id', TokenValidation, async (req, res) => {
     }
 })
 
-
-//*GET trae todas las tareas de un usuario segun el name de la tarea
-//http://localhost:3001/todos/:id/search?name=name
-router.get('/:id/search', TokenValidation, async (req, res) => {
-    let { id } = req.params;
-    let { name } = req.query;
-    try{
-        if (typeof name === 'string') {
-            let toDos = await getByIdAndName(id, name);
-            res.status(200).json(toDos);
-        }
-    } catch (error) {
-        if (error instanceof Error) {
-            res.status(404).json(error.message);
-        } else {
-            console.log('Unexpected Error', error);
-        }
-    }
-})
-
-
 //*GET trae las tareas de un usuario con un status especifico 
 //http://localhost:3001/todos/:id/:status //*id y status por params
 router.get('/:id/:status', TokenValidation, async (req, res) => { 
     let { id, status } = req.params;
     let { priority } = req.query;
     try{
-        if (typeof priority === 'string') {
-            let toDos = await getToDosManager(id, priority, status);
-            res.status(200).json(toDos);
-        } else {
-            let toDos = await getToDosManager(id, undefined, status);
-            res.status(200).json(toDos);
-        }
+        let toDos = await getToDosManager(id, priority as string, status);
+        res.status(200).json(toDos);
     }catch(error){
         if (error instanceof Error) {
             res.status(404).json(error.message);
@@ -84,6 +78,8 @@ router.get('/:id/:status', TokenValidation, async (req, res) => {
         }
     }
 })
+
+
 
 //*POST crea una tarea nueva y es asignada al mismo tiempo a un usuario
 //* por role: supervisor/watcher y por id del usuario
@@ -118,7 +114,6 @@ router.put('/:id', TokenValidation, async (req, res)=>{
         }
     }
 })
-
 
 //*DELETE elimina una tarea por id
 //http://localhost:3001/todos/:id //*id por params

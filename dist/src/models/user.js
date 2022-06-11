@@ -63,10 +63,6 @@ __decorate([
     __metadata("design:type", Array)
 ], Supervisor.prototype, "environment", void 0);
 __decorate([
-    (0, typegoose_1.prop)({ ref: () => Boss }),
-    __metadata("design:type", Array)
-], Supervisor.prototype, "boss", void 0);
-__decorate([
     (0, typegoose_1.prop)({ ref: () => Watcher }),
     __metadata("design:type", Array)
 ], Supervisor.prototype, "watcher", void 0);
@@ -81,10 +77,6 @@ __decorate([
     (0, typegoose_1.prop)({ required: true }),
     __metadata("design:type", Array)
 ], Watcher.prototype, "environment", void 0);
-__decorate([
-    (0, typegoose_1.prop)({ ref: () => Supervisor }),
-    __metadata("design:type", Array)
-], Watcher.prototype, "supervisor", void 0);
 __decorate([
     (0, typegoose_1.prop)(),
     __metadata("design:type", String)
