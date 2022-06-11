@@ -12,7 +12,7 @@ router.post('/', async(req, res, next)=>{
 
        if(findUser){
             const token = jwt.sign({_id:findUser.id}, process.env.TOKEN_SECRET || 'tokenPass', {
-               expiresIn:60*60*24
+               expiresIn: 10
             })
             let dataUser = await getUserById(findUser.id);
             dataUser.push(token);

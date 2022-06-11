@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         let findUser = yield (0, logInController_1.logIn)(dni, password);
         if (findUser) {
             const token = jsonwebtoken_1.default.sign({ _id: findUser.id }, process.env.TOKEN_SECRET || 'tokenPass', {
-                expiresIn: 60 * 60 * 24
+                expiresIn: 10
             });
             let dataUser = yield (0, userController_1.getUserById)(findUser.id);
             dataUser.push(token);
