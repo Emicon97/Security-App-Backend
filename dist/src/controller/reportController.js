@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSenderOrReceiver = exports.getReportsById = exports.sendReport = void 0;
-const report_1 = __importDefault(require("../models/report"));
+const reports_1 = __importDefault(require("../models/reports"));
 const toDos_1 = __importDefault(require("../models/toDos"));
 const userController_1 = require("./userController");
 function sendReport(title, sender, id, description, picture) {
@@ -24,7 +24,7 @@ function sendReport(title, sender, id, description, picture) {
         catch (err) {
             throw new Error(err.message);
         }
-        const report = yield report_1.default.create({
+        const report = yield reports_1.default.create({
             title,
             description: description ? description : undefined,
             picture: picture ? picture : undefined,
@@ -40,14 +40,14 @@ exports.sendReport = sendReport;
 function getReportsById(id, relation) {
     return __awaiter(this, void 0, void 0, function* () {
         if (relation === 'sender') {
-            return yield report_1.default.find({ sender: id });
+            return yield reports_1.default.find({ sender: id });
         }
         else if (relation === 'receiver') {
-            return yield report_1.default.find({ receiver: id });
+            return yield reports_1.default.find({ receiver: id });
         }
         else {
-            let sent = yield report_1.default.find({ sender: id });
-            let received = yield report_1.default.find({ receiver: id });
+            let sent = yield reports_1.default.find({ sender: id });
+            let received = yield reports_1.default.find({ receiver: id });
             return [...sent, ...received];
         }
     });
@@ -64,13 +64,13 @@ function getSenderOrReceiver(id, relation) {
 exports.getSenderOrReceiver = getSenderOrReceiver;
 function getSender(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sender = yield report_1.default.findById(id).populate({ path: 'sender' });
+        const sender = yield reports_1.default.findById(id).populate({ path: 'sender' });
         return sender;
     });
 }
 function getReceiver(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const receiver = yield report_1.default.findById(id).populate({ path: 'receiver' });
+        const receiver = yield reports_1.default.findById(id).populate({ path: 'receiver' });
         return receiver;
     });
 }
