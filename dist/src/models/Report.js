@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Report = void 0;
 const typegoose_1 = require("@typegoose/typegoose");
 const user_1 = require("./user");
 class Report {
@@ -33,5 +34,6 @@ __decorate([
     (0, typegoose_1.prop)({ required: true, ref: () => user_1.Supervisor || user_1.Boss }),
     __metadata("design:type", Object)
 ], Report.prototype, "receiver", void 0);
+exports.Report = Report;
 const reportModel = (0, typegoose_1.getModelForClass)(Report);
 exports.default = reportModel;
