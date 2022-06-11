@@ -1,5 +1,5 @@
-import reportModel from '../models/report';
-import { Report } from '../models/report';
+import reportModel from '../models/reports';
+import { Report } from '../models/reports';
 import toDosModel from '../models/toDos';
 import { getSuperior } from './userController';
 

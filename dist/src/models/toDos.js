@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToDos = void 0;
 const typegoose_1 = require("@typegoose/typegoose");
 const user_1 = require("./user");
-const report_1 = require("./report");
+const reports_1 = require("./reports");
 const TODO_STATUS = ['left', 'done', 'postponed'];
 const PRIORITIES = ['urgent', 'high', 'regular', 'low'];
 class ToDos {
@@ -38,7 +38,7 @@ __decorate([
     __metadata("design:type", String)
 ], ToDos.prototype, "priority", void 0);
 __decorate([
-    (0, typegoose_1.prop)({ ref: () => report_1.Report }),
+    (0, typegoose_1.prop)({ ref: () => reports_1.Report }),
     __metadata("design:type", Array)
 ], ToDos.prototype, "report", void 0);
 exports.ToDos = ToDos;
