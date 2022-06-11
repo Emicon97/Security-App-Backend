@@ -1,6 +1,6 @@
 import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
 import { Supervisor, Watcher } from './user';
-import { Report } from './report';
+import { Report } from './reports';
 
 const TODO_STATUS:string[] = ['left', 'done', 'postponed'];
 const PRIORITIES:string[] = ['urgent', 'high', 'regular', 'low'];
