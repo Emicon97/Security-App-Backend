@@ -29,6 +29,21 @@ router.get('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, v
         }
     }
 }));
+router.get('/reports/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let { id } = req.params;
+        let reports = yield (0, toDosController_1.getReportsFromTask)(id);
+        res.status(200).json(reports);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(404).json(error.message);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
+    }
+}));
 //*GET trae todas las tareas de un usuario por role: supervisor/watcher
 //http://localhost:3001/todos/:id  //*id por params del "usuario"
 router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,40 +68,14 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
         }
     }
 }));
-//*GET trae todas las tareas de un usuario segun el name de la tarea
-//http://localhost:3001/todos/:id/search?name=name
-router.get('/:id/search', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { id } = req.params;
-    let { name } = req.query;
-    try {
-        if (typeof name === 'string') {
-            let toDos = yield (0, toDosController_1.getByIdAndName)(id, name);
-            res.status(200).json(toDos);
-        }
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            res.status(404).json(error.message);
-        }
-        else {
-            console.log('Unexpected Error', error);
-        }
-    }
-}));
 //*GET trae las tareas de un usuario con un status especifico 
 //http://localhost:3001/todos/:id/:status //*id y status por params
 router.get('/:id/:status', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { id, status } = req.params;
     let { priority } = req.query;
     try {
-        if (typeof priority === 'string') {
-            let toDos = yield (0, toDosController_1.getToDosManager)(id, priority, status);
-            res.status(200).json(toDos);
-        }
-        else {
-            let toDos = yield (0, toDosController_1.getToDosManager)(id, undefined, status);
-            res.status(200).json(toDos);
-        }
+        let toDos = yield (0, toDosController_1.getToDosManager)(id, priority, status);
+        res.status(200).json(toDos);
     }
     catch (error) {
         if (error instanceof Error) {

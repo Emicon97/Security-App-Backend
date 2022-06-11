@@ -48,7 +48,8 @@ router.get('/content/:id', verifyToken_1.TokenValidation, (req, res) => __awaite
 router.post('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { id } = req.params;
-        let report = yield (0, reportController_1.sendReport)('Nuevo reporte', '628efaec038a543cbc4c1f49', '629001d1f77222d7eee888da');
+        let { title, toDo, description, picture } = req.body;
+        let report = yield (0, reportController_1.sendReport)(title, id, toDo, description, picture);
         res.json(report);
     }
     catch (error) {
