@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { logIn } from '../controller/logInController';
 import { getUserById } from '../controller/userController';
+import { TokenCreation } from '../libs/verifyToken';
 import jwt from 'jsonwebtoken';
 
 const router = Router();
@@ -11,9 +12,7 @@ router.post('/', async(req, res, next)=>{
       let findUser = await logIn(dni, password);
 
        if(findUser){
-            const token = jwt.sign({_id:findUser.id}, process.env.TOKEN_SECRET || 'tokenPass', {
-               expiresIn: 10
-            })
+            const token = TokenCreation(findUser.id);
             let dataUser = await getUserById(findUser.id);
             dataUser.push(token);
             res.cookie('auth-token', token).json(dataUser);
