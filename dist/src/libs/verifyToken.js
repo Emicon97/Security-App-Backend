@@ -6,15 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefreshToken = exports.TokenCreation = exports.TokenValidation = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const TokenValidation = (req, res, next) => {
-<<<<<<< HEAD
-    // const authHeader = req.headers['auth-token'] as string;
-    // if (!authHeader) return res.sendStatus(401);
-    // jwt.verify(authHeader, process.env.TOKEN_SECRET as string, (err: any) => {
-    //     console.log(err)
-    //     if (err) return res.sendStatus(403);
-    next();
-    //   })
-=======
     const authToken = req.headers['auth-token'];
     const refreshToken = req.headers['refresh-token'];
     if (!authToken)
@@ -30,7 +21,6 @@ const TokenValidation = (req, res, next) => {
     const token = (0, exports.TokenCreation)(id);
     res.cookie('auth-token', token);
     next();
->>>>>>> f422cc5f49efb874bd2fa8705aa2a20460594195
 };
 exports.TokenValidation = TokenValidation;
 const TokenCreation = (id) => {
