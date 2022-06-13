@@ -20,8 +20,11 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         let findUser = yield (0, logInController_1.logIn)(dni, password);
         if (findUser) {
             const token = (0, verifyToken_1.TokenCreation)(findUser.id);
+            const refresh = (0, verifyToken_1.RefreshToken)(findUser.email);
             let dataUser = yield (0, userController_1.getUserById)(findUser.id);
             dataUser.push(token);
+            dataUser.push(refresh);
+            res.cookie('refresh-token', refresh);
             res.cookie('auth-token', token).json(dataUser);
         }
         else {
