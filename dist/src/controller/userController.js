@@ -102,6 +102,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                 });
                 const saveSupervisor = yield supervisor.save();
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
+                console.log('cualquier str', environment);
                 yield (0, environmentController_1.environmentUser)(id, name, 'supervisor');
                 return saveSupervisor;
             case 'supervisor':

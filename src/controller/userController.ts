@@ -96,6 +96,7 @@ async function signUp (
             });
             const saveSupervisor:any = await supervisor.save();
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
+            console.log('cualquier str', environment)
             await environmentUser(id,name,'supervisor');
             return saveSupervisor;
         case 'supervisor':

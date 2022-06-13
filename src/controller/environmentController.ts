@@ -25,6 +25,7 @@ async function environmentDelete(name:string) {
 }
 
 async function environmentUser(id:string, name:string, role:string) {
+    console.log('props',id,name,role)
     const enviro:Environment|null = await environmentModel.findOne({name})
     if(enviro===null) throw new Error('The environment does not exist.')
     await environmentModel.findByIdAndUpdate(enviro, { $push: { role:id } });

@@ -45,6 +45,7 @@ function environmentDelete(name) {
 exports.environmentDelete = environmentDelete;
 function environmentUser(id, name, role) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('props', id, name, role);
         const enviro = yield environment_1.default.findOne({ name });
         if (enviro === null)
             throw new Error('The environment does not exist.');
