@@ -15,7 +15,7 @@ const user_1 = require("./user");
 class Environment {
 }
 __decorate([
-    (0, typegoose_1.prop)({ required: true, lowercase: true, trim: true }),
+    (0, typegoose_1.prop)({ unique: true, required: true, lowercase: true, trim: true }),
     __metadata("design:type", String)
 ], Environment.prototype, "name", void 0);
 __decorate([
