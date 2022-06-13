@@ -37,7 +37,8 @@ router.get('/content/:id', TokenValidation, async (req, res) => {
 router.post('/:id', TokenValidation, async (req, res) => {
    try {
       let { id } = req.params;
-      let report = await sendReport('Nuevo reporte', '628efaec038a543cbc4c1f49', '629001d1f77222d7eee888da');
+      let { title, toDo, description, picture } = req.body;
+      let report = await sendReport(title, id, toDo, description, picture);
       res.json(report);
    } catch (error) {
       if (error instanceof Error) {

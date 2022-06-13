@@ -1,5 +1,6 @@
 import { bossModel, supervisorModel } from '../models/user';
 import toDosModel from '../models/toDos';
+import { ToDos } from './../models/toDos';
 
 //* funcion que reemplaza el operador LIKE en las busquedas por nombre
 function escapeStringRegexp(string:any) {
@@ -95,13 +96,15 @@ async function getTodosPaginatedManager(id:string, limit:number, skip:number, na
 }
 
 //* Realiza el paginado sobre todas las tareas segun limit y skip
-async function getToDosPaginatedAll (id:string, limit:number, skip:number) {
-    try{
-        let response = await toDosModel.find({responsible: id}).skip(skip).limit(limit)
-        return response
-    }catch(error:any){
-        throw new Error(error.message)
-    }
+async function getToDosPaginatedAll (
+    id:string,
+    limit:number,
+    skip:number
+    ): Promise<ToDos[]> {
+    let response = await toDosModel.find({responsible: id}).skip(skip).limit(limit)
+    if (response.length) return response;
+
+    throw new Error ('No tasks have been found for this employee.');
 }
 //* Realiza un filtrado especifico segun el resultado de busqueda del nombre con limit y skip
 async function getToDosPaginatedFilterName (id:string, limit:number, skip:number, name:string){

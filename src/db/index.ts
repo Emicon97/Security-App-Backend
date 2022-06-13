@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 import config from '../config/config';
 
 const dbConnection = async () => {
-  return await mongoose.connect(`mongodb+srv://emi:p5qdrHQR7Qc5JnOa@centinel.urpnz5k.mongodb.net/?retryWrites=true&w=majority`, {
+  return await mongoose.connect(`${config.MONGO_DATABASE}://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_HOST}/${config.MONGO_CONFIGURATION}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -1,21 +1,38 @@
-import reportModel from '../models/Report';
+import reportModel from '../models/reports';
+import { Report } from '../models/reports';
+import toDosModel from '../models/toDos';
+import { getSuperior } from './userController';
 
-async function sendReport (title:string, sender:string, receiver:string) {
-   console.log('entré')
+async function sendReport (
+   title:string,
+   sender:string,
+   id:string,
+   description?:string,
+   picture?:string
+   ): Promise<Report> {
+
+   try {
+      var receiver = await getSuperior(sender);
+   } catch (err:any) {
+      throw new Error (err.message);
+   }
+
    const report = await reportModel.create({
       title,
+      description: description ? description : undefined,
+      picture: picture ? picture : undefined,
       sender,
       receiver
    });
 
    await report.save();
+   await toDosModel.findByIdAndUpdate(id, { $push: { report }});
    return report;
 }
 
 async function getReportsById (id:string, relation?:string) {
 
    if (relation === 'sender') {
-      console.log('acá')
       return await reportModel.find({sender: id});
    } else if (relation === 'receiver') {
       return await reportModel.find({receiver: id});

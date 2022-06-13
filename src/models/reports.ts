@@ -1,7 +1,7 @@
 import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
 import { Boss, Supervisor, Watcher } from './user';
 
-class Report {
+export class Report {
 
    @prop({ required: true })
    public title: string;
@@ -17,7 +17,6 @@ class Report {
 
    @prop({ required: true, ref: () => Supervisor || Boss })
    public receiver: Ref<Supervisor | Boss>;
-
 }
 
 const reportModel = getModelForClass(Report);
