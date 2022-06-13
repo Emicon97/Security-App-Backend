@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
+const emailer = require('../config/email');
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         var response;
@@ -100,6 +101,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveSupervisor = yield supervisor.save();
+                emailer.sendMail(supervisor);
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
                 return saveSupervisor;
             case 'supervisor':
@@ -116,6 +118,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveWatcher = yield watcher.save();
+                emailer.sendMail(watcher);
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
                 return saveWatcher;
         }

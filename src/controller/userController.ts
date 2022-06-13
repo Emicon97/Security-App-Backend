@@ -1,5 +1,6 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
+const emailer = require('../config/email');
  
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
@@ -94,6 +95,7 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveSupervisor:any = await supervisor.save();
+            emailer.sendMail(supervisor);
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
             return saveSupervisor;
         case 'supervisor':
@@ -110,6 +112,7 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveWatcher:any = await watcher.save();
+            emailer.sendMail(watcher);
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
             return saveWatcher;
     }
