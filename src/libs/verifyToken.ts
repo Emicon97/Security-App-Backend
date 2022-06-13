@@ -2,17 +2,17 @@ import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
 
 export const TokenValidation = (req: Request, res: Response, next: NextFunction)=>{
-    const authHeader = req.headers['auth-token'] as string;
+    // const authHeader = req.headers['auth-token'] as string;
 
-    if (!authHeader) return res.sendStatus(401);
+    // if (!authHeader) return res.sendStatus(401);
 
-    jwt.verify(authHeader, process.env.TOKEN_SECRET as string, (err: any) => {
-        console.log(err)
+    // jwt.verify(authHeader, process.env.TOKEN_SECRET as string, (err: any) => {
+    //     console.log(err)
 
-        if (err) return res.sendStatus(403);
+    //     if (err) return res.sendStatus(403);
         
         next();
-      })
+    //   })
 }
 
 export const TokenCreation = (id:String) => {
