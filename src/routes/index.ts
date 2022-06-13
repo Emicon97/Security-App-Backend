@@ -6,6 +6,7 @@ import todosRoutes from './toDos'
 import reportRoutes from './report';
 import paginatedRoutes from './paginated';
 import logoutRoutes from './logout'
+import environment from './environment'
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use('/user', userRoutes);
 router.use('/todos', todosRoutes);
 router.use('/report', reportRoutes);
 router.use('/paginated', paginatedRoutes)
+router.use('/environment', environment)
 
 export = router;

@@ -2,7 +2,7 @@ import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
 import { createArrayFromDimensions } from '@typegoose/typegoose/lib/internal/utils';
 import { Supervisor, Watcher } from './user';
 
-export class Enviroment{
+export class Environment{
 
     @prop({required: true, lowercase: true, trim: true })
     public name!:string;
@@ -14,8 +14,8 @@ export class Enviroment{
     public watcher?:Ref<Watcher[]>;                                                                                                               
 }
 
-const enviromentModel = getModelForClass(Enviroment);
-export default enviromentModel;
+const environmentModel = getModelForClass(Environment);
+export default environmentModel;
 
 // controles 
 // -crear
