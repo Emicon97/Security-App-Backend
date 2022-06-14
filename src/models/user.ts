@@ -24,6 +24,9 @@ class User {
     @prop({ required: true })
     public telephone: string;
 
+    @prop({ required: true, default: false})
+    public changingPassword: boolean;
+
     @prop()
     public address?: string;
 }

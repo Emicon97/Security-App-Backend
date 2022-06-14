@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.roleIdentifier = exports.getSuperior = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
 const environmentController_1 = require("./environmentController");
+const emailer = require('../config/email');
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         var response;
@@ -104,6 +105,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                 const supervisorId = yield saveSupervisor._id;
                 yield (0, environmentController_1.environmentUser)(supervisorId, environment, 'supervisor');
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
+                emailer.sendMail(supervisor);
                 return saveSupervisor;
             case 'supervisor':
                 const watcher = yield user_1.watcherModel.create({
@@ -122,6 +124,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                 const watcherId = yield saveWatcher._id;
                 yield (0, environmentController_1.environmentUser)(watcherId, environment, 'watcher');
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
+                emailer.sendMail(watcher);
                 return saveWatcher;
         }
     });
@@ -152,7 +155,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 email,
                 telephone,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
@@ -170,7 +174,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 environment,
                 workingHours,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
@@ -188,7 +193,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 environment,
                 workingHours,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
