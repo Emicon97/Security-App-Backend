@@ -33,12 +33,12 @@ async function sendReport (
 async function getReportsById (id:string, relation?:string) {
 
    if (relation === 'sender') {
-      return await reportModel.find({sender: id});
+      return await reportModel.find({sender: id}).populate({path:'receiver'});
    } else if (relation === 'receiver') {
-      return await reportModel.find({receiver: id});
+      return await reportModel.find({receiver: id}).populate({path:'sender'});
    } else {
-      let sent = await reportModel.find({sender: id});
-      let received = await reportModel.find({receiver: id});
+      let sent = await reportModel.find({sender: id}).populate({path:'receiver'});
+      let received = await reportModel.find({receiver: id}).populate({path:'sender'});
       return [ ...sent, ...received ];
    }
 }
