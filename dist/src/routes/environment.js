@@ -14,6 +14,21 @@ const environmentController_1 = require("../controller/environmentController");
 const verifyToken_1 = require("./../libs/verifyToken");
 const router = (0, express_1.Router)();
 router.get('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const environments = yield (0, environmentController_1.getAllEnvironments)();
+        res.json(environments);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            console.log('Error', error.message);
+            res.status(404).json(error);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
+    }
+}));
+router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { id } = req.params;
     let { name } = req.body;
     try {

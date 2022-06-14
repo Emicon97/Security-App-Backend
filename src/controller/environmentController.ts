@@ -2,23 +2,29 @@ import environmentModel from "../models/environment";
 import { roleIdentifier } from './userController';
 import { Environment } from './../models/environment';
 
+async function getAllEnvironments() {
+    const environments = await environmentModel.find();
+    if (environments.length) return environments;
+    throw new Error ('There are no environments yet.');
+}
+
 async function getEnvironmentUsers(id:string, name:string) {
     try {
         const role:string = await roleIdentifier(id);
         const users:Environment[] = [];
 
         if (role === 'boss') {
-            environmentModel.find({ name })
-                .populate({ path: 'supervisor' })
+            await environmentModel.find({ name })
+                .populate({ path: 'watcher supervisor' })
                 .then((response:Environment[]) => {
                     if (response.length) {
                         response.map((supervisor) => {
                             users.push(supervisor);
                         })
                     }
-            })
-        }
-        environmentModel.find({ name })
+                })
+        } else {
+            await environmentModel.find({ name })
             .populate({ path: 'watcher' })
             .then((response:Environment[]) => {
                 if (response.length) {
@@ -27,6 +33,9 @@ async function getEnvironmentUsers(id:string, name:string) {
                     })
                 }
             })
+        }
+
+        return users;
     } catch (error:any) {
         throw new Error (error.message);
     }
@@ -62,6 +71,7 @@ async function environmentUser(id:string, environment:string, role:string) {
     return; 
 }
 export{
+    getAllEnvironments,
     getEnvironmentUsers,
     environmentCreate,
     environmentDelete,

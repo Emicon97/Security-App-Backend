@@ -12,17 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.environmentUser = exports.environmentDelete = exports.environmentCreate = exports.getEnvironmentUsers = void 0;
+exports.environmentUser = exports.environmentDelete = exports.environmentCreate = exports.getEnvironmentUsers = exports.getAllEnvironments = void 0;
 const environment_1 = __importDefault(require("../models/environment"));
 const userController_1 = require("./userController");
+function getAllEnvironments() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const environments = yield environment_1.default.find();
+        if (environments.length)
+            return environments;
+        throw new Error('There are no environments yet.');
+    });
+}
+exports.getAllEnvironments = getAllEnvironments;
 function getEnvironmentUsers(id, name) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const role = yield (0, userController_1.roleIdentifier)(id);
             const users = [];
             if (role === 'boss') {
-                environment_1.default.find({ name })
-                    .populate({ path: 'supervisor' })
+                yield environment_1.default.find({ name })
+                    .populate({ path: 'watcher supervisor' })
                     .then((response) => {
                     if (response.length) {
                         response.map((supervisor) => {
@@ -31,15 +40,18 @@ function getEnvironmentUsers(id, name) {
                     }
                 });
             }
-            environment_1.default.find({ name })
-                .populate({ path: 'watcher' })
-                .then((response) => {
-                if (response.length) {
-                    response.map((watcher) => {
-                        users.push(watcher);
-                    });
-                }
-            });
+            else {
+                yield environment_1.default.find({ name })
+                    .populate({ path: 'watcher' })
+                    .then((response) => {
+                    if (response.length) {
+                        response.map((watcher) => {
+                            users.push(watcher);
+                        });
+                    }
+                });
+            }
+            return users;
         }
         catch (error) {
             throw new Error(error.message);

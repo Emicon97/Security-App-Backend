@@ -1,11 +1,25 @@
 import { post } from '@typegoose/typegoose';
 import { Router } from 'express';
-import { getEnvironmentUsers, environmentDelete, environmentCreate } from '../controller/environmentController';
+import { getAllEnvironments, getEnvironmentUsers, environmentDelete, environmentCreate } from '../controller/environmentController';
 import { TokenValidation } from './../libs/verifyToken';
 
 const router = Router();
 
-router.get('/', TokenValidation,async (req, res) => {
+router.get('/', TokenValidation, async (req, res) => {
+    try {
+        const environments = await getAllEnvironments();
+        res.json(environments);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log('Error',error.message)
+            res.status(404).json(error);
+        } else {
+            console.log('Unexpected Error', error);
+        }
+    }
+})
+
+router.get('/:id', TokenValidation, async (req, res) => {
     let { id } = req.params;
     let { name } = req.body;
     try {
