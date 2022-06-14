@@ -7,6 +7,8 @@ import reportRoutes from './report';
 import paginatedRoutes from './paginated';
 import logoutRoutes from './logout'
 import verificationRoutes from './verification';
+import environment from './environment'
+import emailRoutes from './email';
 
 const router = Router();
 
@@ -17,5 +19,7 @@ router.use('/todos', todosRoutes);
 router.use('/report', reportRoutes);
 router.use('/paginated', paginatedRoutes);
 router.use('/verification', verificationRoutes);
+router.use('/environment', environment)
+router.use('/email', emailRoutes);
 
 export = router;

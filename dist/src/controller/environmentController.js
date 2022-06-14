@@ -12,18 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require('mongoose');
-const config_1 = __importDefault(require("../config/config"));
-const dbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield mongoose.connect(`${config_1.default.MONGO_DATABASE}://${config_1.default.MONGO_USER}:${config_1.default.MONGO_PASSWORD}@${config_1.default.MONGO_HOST}/${config_1.default.MONGO_CONFIGURATION}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-        .then(() => {
-        console.log('DB Online');
-    })
-        .catch((err) => {
-        console.log(err);
+exports.environmentCreate = void 0;
+const environment_1 = __importDefault(require("../models/environment"));
+function environmentCreate(name) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (name) {
+            let findInDB = yield environment_1.default.find({ name });
+            console.log('find', findInDB);
+            if (findInDB.length === 0) {
+                let nameOfViro = yield environment_1.default.create({ name });
+                let saverViro = nameOfViro.save();
+                return saverViro;
+            }
+            throw new Error('The environment already exists.');
+        }
+        else {
+            throw new Error('Enter a name.');
+        }
     });
-});
-exports.default = dbConnection;
+}
+exports.environmentCreate = environmentCreate;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
+exports.getSuperior = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
 const emailer = require('../config/email');
 function getUserById(id) {
@@ -118,6 +118,7 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveWatcher = yield watcher.save();
+                //Envia el mail
                 emailer.sendMail(watcher);
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
                 return saveWatcher;
@@ -150,7 +151,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 email,
                 telephone,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
@@ -168,7 +170,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 environment,
                 workingHours,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
@@ -186,7 +189,8 @@ function updateUser(id, password, email, telephone, environment, workingHours, p
                 environment,
                 workingHours,
                 profilePic,
-                address
+                address,
+                changingPassword: false
             }, options)
                 .then((response) => {
                 if (response !== null) {
@@ -211,7 +215,7 @@ function roleIdentifier(id) {
         const isWatcher = yield user_1.watcherModel.findById(id);
         if (isWatcher !== null)
             return 'watcher';
-        throw new Error("No task has been found for this employee.");
+        throw new Error("That employee was not found.");
     });
 }
 function dniCHecker(dni) {
@@ -243,3 +247,17 @@ function dniCHecker(dni) {
         });
     });
 }
+function getSuperior(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const supervisor = yield user_1.supervisorModel.findOne({})
+            .populate({ path: 'watcher', match: id, select: '_id' });
+        if (supervisor)
+            return supervisor._id;
+        const boss = yield user_1.bossModel.findOne({})
+            .populate({ path: 'supervisor', match: id });
+        if (boss)
+            return boss._id;
+        throw new Error('There was a problem with the hierarchy in the database. Cannot contact a superior.');
+    });
+}
+exports.getSuperior = getSuperior;

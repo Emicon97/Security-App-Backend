@@ -9,22 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-console.log('entré');
-require('dotenv').config();
-const user_1 = require("./src/models/user");
-function bossCreator() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const boss = yield user_1.bossModel.create({
-            name: 'Emi',
-            lastName: 'Conde',
-            password: 'granjefe@biggestjefe.password',
-            dni: 88888888,
-            email: 'disizmuymale',
-            telephone: 18181818,
-            environment: 'Mi casa'
-        });
-        const saveUser = yield boss.save();
-        return saveUser;
-    });
-}
-bossCreator();
+const express_1 = require("express");
+const environmentController_1 = require("../controller/environmentController");
+const verifyToken_1 = require("./../libs/verifyToken");
+const router = (0, express_1.Router)();
+router.post('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let { name } = req.body;
+    console.log('nameRo', name);
+    try {
+        let create = yield (0, environmentController_1.environmentCreate)(name);
+        res.json(create);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(404).json(error);
+        }
+        else {
+            console.log('Unexpected Error', error);
+        }
+    }
+}));
+exports.default = router;

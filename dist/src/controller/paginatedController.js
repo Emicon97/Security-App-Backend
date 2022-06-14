@@ -125,13 +125,10 @@ exports.getTodosPaginatedManager = getTodosPaginatedManager;
 //* Realiza el paginado sobre todas las tareas segun limit y skip
 function getToDosPaginatedAll(id, limit, skip) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            let response = yield toDos_1.default.find({ responsible: id }).skip(skip).limit(limit);
+        let response = yield toDos_1.default.find({ responsible: id }).skip(skip).limit(limit);
+        if (response.length)
             return response;
-        }
-        catch (error) {
-            throw new Error(error.message);
-        }
+        throw new Error('No tasks have been found for this employee.');
     });
 }
 //* Realiza un filtrado especifico segun el resultado de busqueda del nombre con limit y skip
