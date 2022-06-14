@@ -16,7 +16,7 @@ const router = (0, express_1.Router)();
 router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { id } = req.params;
-        let { relation } = req.body;
+        let { relation } = req.query;
         let reports = yield (0, reportController_1.getReportsById)(id, relation);
         res.json(reports);
     }
@@ -32,7 +32,7 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
 router.get('/content/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { id } = req.params;
-        let { relation } = req.body;
+        let { relation } = req.query;
         let sender = yield (0, reportController_1.getSenderOrReceiver)(id, relation);
         res.json(sender);
     }

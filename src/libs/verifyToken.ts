@@ -44,7 +44,6 @@ function verifyJWT (token:string) {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET as string);
         return { payload: decoded, expired: false };
     } catch (error:any) {
-        console.log(error.message.includes("jwt expired"))
         return { payload: null, expired: error.message.includes("jwt expired") };
       }
 }
