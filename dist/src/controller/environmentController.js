@@ -63,10 +63,11 @@ function environmentCreate(name) {
     return __awaiter(this, void 0, void 0, function* () {
         if (name) {
             let findInDB = yield environment_1.default.find({ name });
-            if (findInDB.length === 0) {
+            if (!findInDB.length) {
                 let nameOfViro = yield environment_1.default.create({ name });
                 let saverViro = yield nameOfViro.save();
-                return saverViro;
+                const environments = yield getAllEnvironments();
+                return environments;
             }
             throw new Error('The environment already exists.');
         }

@@ -45,10 +45,11 @@ async function environmentCreate(name:string){
     if(name){
         let findInDB = await environmentModel.find({name});
 
-        if(findInDB.length===0){
+        if(!findInDB.length){
             let nameOfViro = await environmentModel.create({name});
             let saverViro = await nameOfViro.save();
-            return saverViro
+            const environments = await getAllEnvironments();
+            return environments;
         } throw new Error('The environment already exists.')
     }else{
         throw new Error('Enter a name.')
