@@ -43,6 +43,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "telephone", void 0);
 __decorate([
+    (0, typegoose_1.prop)({ required: true, default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "changingPassword", void 0);
+__decorate([
     (0, typegoose_1.prop)(),
     __metadata("design:type", String)
 ], User.prototype, "address", void 0);
