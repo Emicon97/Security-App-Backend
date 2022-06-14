@@ -252,5 +252,6 @@ export {
     getUserByHierarchy,
     deleteUser,
     updateUser,
-    getSuperior
+    getSuperior,
+    roleIdentifier
 };

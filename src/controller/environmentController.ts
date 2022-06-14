@@ -1,6 +1,10 @@
 import environmentModel from "../models/environment";
-import { bossModel } from "../models/user";
 import { Environment } from './../models/environment';
+import { roleIdentifier } from './userController';
+
+async function getEnvironmentUsers(id:string, name:string) {
+    const role = roleIdentifier(id);
+}
 
 async function environmentCreate(name:string){
     if(name){
@@ -32,6 +36,7 @@ async function environmentUser(id:string, name:string, role:string) {
     return; 
 }
 export{
+    getEnvironmentUsers,
     environmentCreate,
     environmentDelete,
     environmentUser
