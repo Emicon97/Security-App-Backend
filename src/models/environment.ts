@@ -8,10 +8,10 @@ export class Environment{
     public name!:string;
 
     @prop({ref: () => Supervisor})
-    public supervisor?:Ref<Supervisor[]>;
+    public supervisor?:Supervisor[];
 
     @prop({ref: () => Watcher})
-    public watcher?:Ref<Watcher[]>;                                                                                                               
+    public watcher?:Watcher[];                                                                                                               
 }
 
 const environmentModel = getModelForClass(Environment);

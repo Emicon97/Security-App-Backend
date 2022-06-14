@@ -1,7 +1,8 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
 import { environmentUser } from './environmentController';
- 
+const emailer = require('../config/email');
+
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
 
@@ -95,11 +96,12 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveSupervisor:any = await supervisor.save();
-            const idUser1 = await saveSupervisor._id
-            console.log('idUser1',idUser1)
+            
+            const supervisorId = await saveSupervisor._id;
+            await environmentUser(supervisorId, environment, 'supervisor');
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-            console.log('cualquier str', environment)
-            await environmentUser(idUser1,environment,'supervisor');
+
+            emailer.sendMail(supervisor);
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -115,10 +117,12 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveWatcher:any = await watcher.save();
-            console.log('cualquier str', environment)
-            const idUser2 = await saveWatcher._id
+
+            const watcherId = await saveWatcher._id;
+            await environmentUser(watcherId, environment, 'watcher');
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-            await environmentUser(idUser2,environment,'watcher');
+            
+            emailer.sendMail(watcher);
             return saveWatcher;
     }
 }
@@ -154,7 +158,8 @@ async function updateUser (
               email,
               telephone,
               profilePic,
-              address
+              address,
+              changingPassword: false
           },options)
           .then((response)=>{
               if(response !== null){
@@ -172,7 +177,8 @@ async function updateUser (
             environment,
             workingHours,
             profilePic,
-            address
+            address,
+            changingPassword: false
         },options)
         .then((response)=>{
             if(response !== null){
@@ -189,7 +195,8 @@ async function updateUser (
             environment,
             workingHours,
             profilePic,
-            address
+            address,
+            changingPassword: false
         }, options)
             .then((response)=>{
                 if(response !== null){
@@ -256,5 +263,6 @@ export {
     getUserByHierarchy,
     deleteUser,
     updateUser,
-    getSuperior
+    getSuperior,
+    roleIdentifier
 };

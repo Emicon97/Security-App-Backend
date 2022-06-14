@@ -13,7 +13,7 @@ router.get('/:id', TokenValidation, async (req, res) => {
    }  catch (error) {
       if (error instanceof Error) {
          res.status(404).json(error.message);
-     } else {
+      } else {
          console.log('Unexpected Error', error);
      }
   }
@@ -26,10 +26,10 @@ router.get('/content/:id', TokenValidation, async (req, res) => {
       let sender = await getSenderOrReceiver(id, relation as string);
       res.json(sender);
    } catch (error) {
-       if (error instanceof Error) {
-          res.status(404).json(error.message);
+      if (error instanceof Error) {
+         res.status(404).json(error.message);
       } else {
-          console.log('Unexpected Error', error);
+         console.log('Unexpected Error', error);
       }
    }
 })
@@ -42,9 +42,9 @@ router.post('/:id', TokenValidation, async (req, res) => {
       res.json(report);
    } catch (error) {
       if (error instanceof Error) {
-          res.status(404).json(error.message);
+         res.status(404).json(error.message);
       } else {
-          console.log('Unexpected Error', error);
+         console.log('Unexpected Error', error);
       }
    }
 })

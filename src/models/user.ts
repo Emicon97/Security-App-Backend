@@ -24,6 +24,9 @@ class User {
     @prop({ required: true })
     public telephone: string;
 
+    @prop({ required: true, default: false})
+    public changingPassword: boolean;
+
     @prop()
     public address?: string;
 }
@@ -37,7 +40,7 @@ export class Boss extends User {
 export class Supervisor extends User {
         
     @prop({ required: true })
-    public environment: string[];
+    public environment: string;
 
     @prop({ ref: () => Watcher })
     public watcher: Ref<Watcher>[];
@@ -49,7 +52,7 @@ export class Supervisor extends User {
 export class Watcher extends User {
         
     @prop({ required: true })
-    public environment: string[];
+    public environment: string;
 
     @prop()
     public workingHours?: string;

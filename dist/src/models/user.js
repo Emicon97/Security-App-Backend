@@ -43,6 +43,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "telephone", void 0);
 __decorate([
+    (0, typegoose_1.prop)({ required: true, default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "changingPassword", void 0);
+__decorate([
     (0, typegoose_1.prop)(),
     __metadata("design:type", String)
 ], User.prototype, "address", void 0);
@@ -60,7 +64,7 @@ class Supervisor extends User {
 }
 __decorate([
     (0, typegoose_1.prop)({ required: true }),
-    __metadata("design:type", Array)
+    __metadata("design:type", String)
 ], Supervisor.prototype, "environment", void 0);
 __decorate([
     (0, typegoose_1.prop)({ ref: () => Watcher }),
@@ -75,7 +79,7 @@ class Watcher extends User {
 }
 __decorate([
     (0, typegoose_1.prop)({ required: true }),
-    __metadata("design:type", Array)
+    __metadata("design:type", String)
 ], Watcher.prototype, "environment", void 0);
 __decorate([
     (0, typegoose_1.prop)(),

@@ -20,11 +20,11 @@ __decorate([
 ], Environment.prototype, "name", void 0);
 __decorate([
     (0, typegoose_1.prop)({ ref: () => user_1.Supervisor }),
-    __metadata("design:type", Object)
+    __metadata("design:type", Array)
 ], Environment.prototype, "supervisor", void 0);
 __decorate([
     (0, typegoose_1.prop)({ ref: () => user_1.Watcher }),
-    __metadata("design:type", Object)
+    __metadata("design:type", Array)
 ], Environment.prototype, "watcher", void 0);
 exports.Environment = Environment;
 const environmentModel = (0, typegoose_1.getModelForClass)(Environment);
