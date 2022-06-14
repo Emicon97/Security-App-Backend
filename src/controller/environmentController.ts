@@ -24,11 +24,13 @@ async function environmentDelete(name:string) {
         } throw new Error('The environment does not exist.')
 }
 
-async function environmentUser(id:string, name:string, role:string) {
-    console.log('props',id,name,role)
-    const enviro:Environment|null = await environmentModel.findOne({name})
+async function environmentUser(id:string, environment:string, role:string) {
+    console.log('props',id,environment,role)
+    const enviro= await environmentModel.findOne({name:environment})
+    console.log('enviro',enviro)
     if(enviro===null) throw new Error('The environment does not exist.')
-    await environmentModel.findByIdAndUpdate(enviro, { $push: { role:id } });
+    if(role==='supervisor') await environmentModel.findByIdAndUpdate(enviro._id, { $push: { 'supervisor':id } });
+    if(role==='watcher') await environmentModel.findByIdAndUpdate(enviro._id, { $push: { 'watcher':id } });
     return; 
 }
 export{
