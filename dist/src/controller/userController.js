@@ -11,11 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSuperior = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
-<<<<<<< HEAD
-const emailer = require('../config/email');
-=======
 const environmentController_1 = require("./environmentController");
->>>>>>> a4dbf931c4c80c737e1d8144c5574ed799c7f5cb
+const emailer = require('../config/email');
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         var response;

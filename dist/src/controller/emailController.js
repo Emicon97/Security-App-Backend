@@ -29,9 +29,6 @@ function getUserByDNI(dni, email) {
             id = findWatcher._id;
         const token = (0, verifyToken_1.TokenCreation)(id);
         const refresh = (0, verifyToken_1.RefreshToken)(email);
-        console.log("tokennnnnn  ", token);
-        console.log("************************");
-        console.log("refreshhh ", refresh);
         if (findBoss !== null)
             return (0, email_1.recoverEmail)(findBoss, token, refresh);
         if (findSupervisor !== null)

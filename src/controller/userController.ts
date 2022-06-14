@@ -1,11 +1,8 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
-<<<<<<< HEAD
-const emailer = require('../config/email');
-=======
 import { environmentUser } from './environmentController';
->>>>>>> a4dbf931c4c80c737e1d8144c5574ed799c7f5cb
- 
+const emailer = require('../config/email');
+
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
 
