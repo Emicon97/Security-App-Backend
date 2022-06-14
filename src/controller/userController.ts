@@ -1,5 +1,6 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
+import { environmentUser } from './environmentController';
  
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
@@ -95,6 +96,8 @@ async function signUp (
             });
             const saveSupervisor:any = await supervisor.save();
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
+            console.log('cualquier str', environment)
+            await environmentUser(id,name,'supervisor');
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -111,6 +114,7 @@ async function signUp (
             });
             const saveWatcher:any = await watcher.save();
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
+            await environmentUser(id,name,'watcher');
             return saveWatcher;
     }
 }
