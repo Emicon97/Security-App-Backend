@@ -95,9 +95,11 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveSupervisor:any = await supervisor.save();
+            const idUser1 = await saveSupervisor._id
+            console.log('idUser1',idUser1)
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
             console.log('cualquier str', environment)
-            await environmentUser(id,name,'supervisor');
+            await environmentUser(idUser1,environment,'supervisor');
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -113,8 +115,10 @@ async function signUp (
                 address: address ? address : undefined
             });
             const saveWatcher:any = await watcher.save();
+            console.log('cualquier str', environment)
+            const idUser2 = await saveWatcher._id
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-            await environmentUser(id,name,'watcher');
+            await environmentUser(idUser2,environment,'watcher');
             return saveWatcher;
     }
 }

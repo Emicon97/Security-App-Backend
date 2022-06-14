@@ -43,13 +43,17 @@ function environmentDelete(name) {
     });
 }
 exports.environmentDelete = environmentDelete;
-function environmentUser(id, name, role) {
+function environmentUser(id, environment, role) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('props', id, name, role);
-        const enviro = yield environment_1.default.findOne({ name });
+        console.log('props', id, environment, role);
+        const enviro = yield environment_1.default.findOne({ name: environment });
+        console.log('enviro', enviro);
         if (enviro === null)
             throw new Error('The environment does not exist.');
-        yield environment_1.default.findByIdAndUpdate(enviro, { $push: { role: id } });
+        if (role === 'supervisor')
+            yield environment_1.default.findByIdAndUpdate(enviro._id, { $push: { 'supervisor': id } });
+        if (role === 'watcher')
+            yield environment_1.default.findByIdAndUpdate(enviro._id, { $push: { 'watcher': id } });
         return;
     });
 }

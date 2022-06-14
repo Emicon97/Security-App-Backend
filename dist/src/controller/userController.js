@@ -101,9 +101,11 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveSupervisor = yield supervisor.save();
+                const idUser1 = yield saveSupervisor._id;
+                console.log('idUser1', idUser1);
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
                 console.log('cualquier str', environment);
-                yield (0, environmentController_1.environmentUser)(id, name, 'supervisor');
+                yield (0, environmentController_1.environmentUser)(idUser1, environment, 'supervisor');
                 return saveSupervisor;
             case 'supervisor':
                 const watcher = yield user_1.watcherModel.create({
@@ -119,8 +121,10 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveWatcher = yield watcher.save();
+                console.log('cualquier str', environment);
+                const idUser2 = yield saveWatcher._id;
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-                yield (0, environmentController_1.environmentUser)(id, name, 'watcher');
+                yield (0, environmentController_1.environmentUser)(idUser2, environment, 'watcher');
                 return saveWatcher;
         }
     });
