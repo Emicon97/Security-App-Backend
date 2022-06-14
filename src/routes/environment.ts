@@ -7,12 +7,12 @@ const router = Router();
 
 router.post('/', TokenValidation, async(req,res)=>{
     let {name} = req.body
-    console.log('nameRo',name)
     try{
         let create = await environmentCreate(name);
         res.json(create);
     }catch(error){
         if (error instanceof Error) {
+            console.log('Error',error.message)
             res.status(404).json(error);
         } else {
             console.log('Unexpected Error', error);
