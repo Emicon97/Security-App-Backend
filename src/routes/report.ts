@@ -7,8 +7,8 @@ const router = Router();
 router.get('/:id', TokenValidation, async (req, res) => {
    try {
       let { id } = req.params;
-      let { relation } = req.body;
-      let reports = await getReportsById(id, relation);
+      let { relation } = req.query ;
+      let reports = await getReportsById(id, relation as string);
       res.json(reports);
    }  catch (error) {
       if (error instanceof Error) {
@@ -22,8 +22,8 @@ router.get('/:id', TokenValidation, async (req, res) => {
 router.get('/content/:id', TokenValidation, async (req, res) => {
    try {
       let { id } = req.params;
-      let { relation } = req.body;
-      let sender = await getSenderOrReceiver(id, relation);
+      let { relation } = req.query;
+      let sender = await getSenderOrReceiver(id, relation as string);
       res.json(sender);
    } catch (error) {
        if (error instanceof Error) {

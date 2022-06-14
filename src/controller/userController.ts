@@ -1,6 +1,10 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
+<<<<<<< HEAD
 const emailer = require('../config/email');
+=======
+import { environmentUser } from './environmentController';
+>>>>>>> a4dbf931c4c80c737e1d8144c5574ed799c7f5cb
  
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
@@ -97,6 +101,8 @@ async function signUp (
             const saveSupervisor:any = await supervisor.save();
             emailer.sendMail(supervisor);
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
+            console.log('cualquier str', environment)
+            await environmentUser(id,name,'supervisor');
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -115,6 +121,7 @@ async function signUp (
             //Envia el mail
             emailer.sendMail(watcher);
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
+            await environmentUser(id,name,'watcher');
             return saveWatcher;
     }
 }

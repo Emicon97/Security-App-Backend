@@ -40,14 +40,14 @@ exports.sendReport = sendReport;
 function getReportsById(id, relation) {
     return __awaiter(this, void 0, void 0, function* () {
         if (relation === 'sender') {
-            return yield reports_1.default.find({ sender: id });
+            return yield reports_1.default.find({ sender: id }).populate({ path: 'receiver' });
         }
         else if (relation === 'receiver') {
-            return yield reports_1.default.find({ receiver: id });
+            return yield reports_1.default.find({ receiver: id }).populate({ path: 'sender' });
         }
         else {
-            let sent = yield reports_1.default.find({ sender: id });
-            let received = yield reports_1.default.find({ receiver: id });
+            let sent = yield reports_1.default.find({ sender: id }).populate({ path: 'receiver' });
+            let received = yield reports_1.default.find({ receiver: id }).populate({ path: 'sender' });
             return [...sent, ...received];
         }
     });

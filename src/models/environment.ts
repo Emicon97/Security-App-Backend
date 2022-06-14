@@ -4,7 +4,7 @@ import { Supervisor, Watcher } from './user';
 
 export class Environment{
 
-    @prop({required: true, lowercase: true, trim: true })
+    @prop({unique:true, required: true, lowercase: true, trim: true })
     public name!:string;
 
     @prop({ref: () => Supervisor})

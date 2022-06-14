@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.environmentCreate = void 0;
+exports.environmentUser = exports.environmentDelete = exports.environmentCreate = void 0;
 const environment_1 = __importDefault(require("../models/environment"));
 function environmentCreate(name) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -21,7 +21,7 @@ function environmentCreate(name) {
             console.log('find', findInDB);
             if (findInDB.length === 0) {
                 let nameOfViro = yield environment_1.default.create({ name });
-                let saverViro = nameOfViro.save();
+                let saverViro = yield nameOfViro.save();
                 return saverViro;
             }
             throw new Error('The environment already exists.');
@@ -32,3 +32,25 @@ function environmentCreate(name) {
     });
 }
 exports.environmentCreate = environmentCreate;
+function environmentDelete(name) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let findInDB = yield environment_1.default.find({ name });
+        if (findInDB) {
+            yield environment_1.default.deleteOne({ name });
+            return 'Enviroment delete successfully.';
+        }
+        throw new Error('The environment does not exist.');
+    });
+}
+exports.environmentDelete = environmentDelete;
+function environmentUser(id, name, role) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('props', id, name, role);
+        const enviro = yield environment_1.default.findOne({ name });
+        if (enviro === null)
+            throw new Error('The environment does not exist.');
+        yield environment_1.default.findByIdAndUpdate(enviro, { $push: { role: id } });
+        return;
+    });
+}
+exports.environmentUser = environmentUser;
