@@ -1,15 +1,41 @@
 import environmentModel from "../models/environment";
-import { Environment } from './../models/environment';
 import { roleIdentifier } from './userController';
+import { Environment } from './../models/environment';
 
 async function getEnvironmentUsers(id:string, name:string) {
-    const role = roleIdentifier(id);
+    try {
+        const role:string = await roleIdentifier(id);
+        const users:Environment[] = [];
+
+        if (role === 'boss') {
+            environmentModel.find({ name })
+                .populate({ path: 'supervisor' })
+                .then((response:Environment[]) => {
+                    if (response.length) {
+                        response.map((supervisor) => {
+                            users.push(supervisor);
+                        })
+                    }
+            })
+        }
+        environmentModel.find({ name })
+            .populate({ path: 'watcher' })
+            .then((response:Environment[]) => {
+                if (response.length) {
+                    response.map((watcher) => {
+                        users.push(watcher);
+                    })
+                }
+            })
+    } catch (error:any) {
+        throw new Error (error.message);
+    }
 }
 
 async function environmentCreate(name:string){
     if(name){
         let findInDB = await environmentModel.find({name});
-        console.log('find',findInDB)
+
         if(findInDB.length===0){
             let nameOfViro = await environmentModel.create({name});
             let saverViro = await nameOfViro.save();
@@ -29,9 +55,7 @@ async function environmentDelete(name:string) {
 }
 
 async function environmentUser(id:string, environment:string, role:string) {
-    console.log('props',id,environment,role)
     const enviro= await environmentModel.findOne({name:environment})
-    console.log('enviro',enviro)
     if(enviro===null) throw new Error('The environment does not exist.')
     if(role==='supervisor') await environmentModel.findByIdAndUpdate(enviro._id, { $push: { 'supervisor':id } });
     if(role==='watcher') await environmentModel.findByIdAndUpdate(enviro._id, { $push: { 'watcher':id } });

@@ -14,21 +14,16 @@ const user_1 = require("../models/user");
 function logIn(dni, password) {
     return __awaiter(this, void 0, void 0, function* () {
         if (dni && password) {
-            try {
-                let findBoss = yield user_1.bossModel.findOne({ dni, password });
-                let findSupervisor = yield user_1.supervisorModel.findOne({ dni, password });
-                let findWatcher = yield user_1.watcherModel.findOne({ dni, password });
-                if (findBoss !== null)
-                    return findBoss;
-                if (findSupervisor !== null)
-                    return findSupervisor;
-                if (findWatcher !== null)
-                    return findWatcher;
-                return false;
-            }
-            catch (err) {
-                console.log(err);
-            }
+            let findBoss = yield user_1.bossModel.findOne({ dni, password });
+            let findSupervisor = yield user_1.supervisorModel.findOne({ dni, password });
+            let findWatcher = yield user_1.watcherModel.findOne({ dni, password });
+            if (findBoss !== null)
+                return findBoss;
+            if (findSupervisor !== null)
+                return findSupervisor;
+            if (findWatcher !== null)
+                return findWatcher;
+            return false;
         }
         else {
             throw new Error('Complete the required fields.');

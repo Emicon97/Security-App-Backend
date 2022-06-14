@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuperior = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
+exports.roleIdentifier = exports.getSuperior = exports.updateUser = exports.deleteUser = exports.getUserByHierarchy = exports.getUserById = exports.signUp = void 0;
 const user_1 = require("../models/user");
 const environmentController_1 = require("./environmentController");
 function getUserById(id) {
@@ -101,11 +101,9 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveSupervisor = yield supervisor.save();
-                const idUser1 = yield saveSupervisor._id;
-                console.log('idUser1', idUser1);
+                const supervisorId = yield saveSupervisor._id;
+                yield (0, environmentController_1.environmentUser)(supervisorId, environment, 'supervisor');
                 yield user_1.bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
-                console.log('cualquier str', environment);
-                yield (0, environmentController_1.environmentUser)(idUser1, environment, 'supervisor');
                 return saveSupervisor;
             case 'supervisor':
                 const watcher = yield user_1.watcherModel.create({
@@ -121,10 +119,9 @@ function signUp(id, name, lastName, password, dni, email, telephone, environment
                     address: address ? address : undefined
                 });
                 const saveWatcher = yield watcher.save();
-                console.log('cualquier str', environment);
-                const idUser2 = yield saveWatcher._id;
+                const watcherId = yield saveWatcher._id;
+                yield (0, environmentController_1.environmentUser)(watcherId, environment, 'watcher');
                 yield user_1.supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
-                yield (0, environmentController_1.environmentUser)(idUser2, environment, 'watcher');
                 return saveWatcher;
         }
     });
@@ -219,6 +216,7 @@ function roleIdentifier(id) {
         throw new Error("That employee was not found.");
     });
 }
+exports.roleIdentifier = roleIdentifier;
 function dniCHecker(dni) {
     return __awaiter(this, void 0, void 0, function* () {
         yield user_1.watcherModel.findOne({ dni })

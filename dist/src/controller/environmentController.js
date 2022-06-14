@@ -12,13 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.environmentUser = exports.environmentDelete = exports.environmentCreate = void 0;
+exports.environmentUser = exports.environmentDelete = exports.environmentCreate = exports.getEnvironmentUsers = void 0;
 const environment_1 = __importDefault(require("../models/environment"));
+const userController_1 = require("./userController");
+function getEnvironmentUsers(id, name) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const role = yield (0, userController_1.roleIdentifier)(id);
+            const users = [];
+            if (role === 'boss') {
+                environment_1.default.find({ name })
+                    .populate({ path: 'supervisor' })
+                    .then((response) => {
+                    if (response.length) {
+                        response.map((supervisor) => {
+                            users.push(supervisor);
+                        });
+                    }
+                });
+            }
+            environment_1.default.find({ name })
+                .populate({ path: 'watcher' })
+                .then((response) => {
+                if (response.length) {
+                    response.map((watcher) => {
+                        users.push(watcher);
+                    });
+                }
+            });
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    });
+}
+exports.getEnvironmentUsers = getEnvironmentUsers;
 function environmentCreate(name) {
     return __awaiter(this, void 0, void 0, function* () {
         if (name) {
             let findInDB = yield environment_1.default.find({ name });
-            console.log('find', findInDB);
             if (findInDB.length === 0) {
                 let nameOfViro = yield environment_1.default.create({ name });
                 let saverViro = yield nameOfViro.save();
@@ -45,9 +77,7 @@ function environmentDelete(name) {
 exports.environmentDelete = environmentDelete;
 function environmentUser(id, environment, role) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('props', id, environment, role);
         const enviro = yield environment_1.default.findOne({ name: environment });
-        console.log('enviro', enviro);
         if (enviro === null)
             throw new Error('The environment does not exist.');
         if (role === 'supervisor')
