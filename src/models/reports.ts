@@ -13,10 +13,10 @@ export class Report {
    public picture?: string;
 
    @prop({ required: true, ref: () => Watcher || Supervisor })
-   public sender: Ref<Watcher | Supervisor>;
+   public sender: Watcher | Supervisor;
 
    @prop({ required: true, ref: () => Supervisor || Boss })
-   public receiver: Ref<Supervisor | Boss>;
+   public receiver: Supervisor | Boss;
 }
 
 const reportModel = getModelForClass(Report);
