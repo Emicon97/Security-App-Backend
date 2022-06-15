@@ -1,7 +1,7 @@
 import reportModel from '../models/reports';
-import { Report } from '../models/reports';
 import toDosModel from '../models/toDos';
-import { getSuperior } from './userController';
+import { Report } from '../models/reports';
+import { getSuperior, roleIdentifier } from './userController';
 
 async function sendReport (
    title:string,
@@ -17,13 +17,19 @@ async function sendReport (
       throw new Error (err.message);
    }
 
+   var senderType:string = await roleIdentifier(sender);
+   senderType = senderType.charAt(0).toUpperCase();
+   var receiverType:string;
+   senderType === 'Watcher' ?
+      receiverType = 'Supervsor' : receiverType = 'Boss';
+
    const report = await reportModel.create({
       title,
       description: description ? description : undefined,
       picture: picture ? picture : undefined,
-      senderType: 'Supervisor',
+      senderType,
       sender,
-      receiverType: 'Boss',
+      receiverType,
       receiver
    });
 
