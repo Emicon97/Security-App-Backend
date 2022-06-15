@@ -7,9 +7,9 @@ const router = Router();
 
 router.put('/', async(req, res) => {
     try{
-        let { email, dni } = req.body;
+        let { dni, email } = req.body;
         let response = await getUserByDNI(dni, email);
-            res.json("Email enviado");
+            res.send("Email enviado");
     }catch(error:any){
         if (error instanceof Error) {
             res.status(404).json(error);

@@ -36,7 +36,25 @@ async function verificationDNI(dni:number){
     }
 }
 
+//*Function verifica si pertenece dni y email
+async function verificationEmailAndDNI(dni:string, email:string){
+    console.log(dni, email)
+    try{
+        let boss = await bossModel.findOne({dni, email});
+        let supervisor = await supervisorModel.findOne({dni, email});
+        let watcher = await watcherModel.findOne({dni, email});
+        if(boss !== null || supervisor !== null || watcher !== null){
+            return true
+        }else{
+            return false
+        }
+    }catch(error:any){
+        throw new Error(error.message)
+    }
+}
+
 export{
     verificationEmail,
     verificationDNI,
+    verificationEmailAndDNI
 }
