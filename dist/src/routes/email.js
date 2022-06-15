@@ -16,9 +16,9 @@ const verifyToken_1 = require("../libs/verifyToken");
 const router = (0, express_1.Router)();
 router.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { email, dni } = req.body;
+        let { dni, email } = req.body;
         let response = yield (0, emailController_1.getUserByDNI)(dni, email);
-        res.json("Email enviado");
+        res.send("Email enviado");
     }
     catch (error) {
         if (error instanceof Error) {

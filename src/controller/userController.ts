@@ -1,7 +1,7 @@
 import {bossModel, neighbourModel, supervisorModel, watcherModel} from '../models/user';
 import { Boss, Supervisor, Watcher, Neighbour } from '../models/user';
 import { environmentUser } from './environmentController';
-const emailer = require('../config/email');
+const {sendMail} = require('../config/email');
 
 async function getUserById(id:string):Promise<[ Boss | Supervisor | Watcher | Neighbour, string ]> {
     var response:[ Boss | Supervisor | Watcher | Neighbour, string ];
@@ -101,7 +101,7 @@ async function signUp (
             await environmentUser(supervisorId, environment, 'supervisor');
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
 
-            emailer.sendMail(supervisor);
+            await sendMail(supervisor);
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -122,7 +122,7 @@ async function signUp (
             await environmentUser(watcherId, environment, 'watcher');
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
             
-            emailer.sendMail(watcher);
+            await sendMail(watcher);
             return saveWatcher;
     }
 }
