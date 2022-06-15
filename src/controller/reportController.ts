@@ -21,7 +21,7 @@ async function sendReport (
    senderType = senderType.charAt(0).toUpperCase() + senderType.slice(1);
    var receiverType:string;
    senderType === 'Watcher' ?
-      receiverType = 'Supervsor' : receiverType = 'Boss';
+      receiverType = 'Supervisor' : receiverType = 'Boss';
 
    const report = await reportModel.create({
       title,
