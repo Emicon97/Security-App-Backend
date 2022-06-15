@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.recoverEmail = exports.sendMail = void 0;
 const nodemailer = require('nodemailer');
+// const nodemailerSendgrid = require('nodemailer-sendgrid')
+//configuracion de SMTP sendGrid
 // configuracion de SMTP con mailtrap
 const createTrans = () => {
     //necesitamos especificar a nodemailer que tipo de conexion queremos
@@ -18,8 +20,8 @@ const createTrans = () => {
         host: "smtp.mailtrap.io",
         port: 2525,
         auth: {
-            user: "0ad1b6dd63c368",
-            pass: "4585f70217f78d"
+            user: "a06c02d9f4b52b",
+            pass: "0b35d51e9869ff"
         }
     });
     // nos retorna esta conexion

@@ -101,7 +101,7 @@ async function signUp (
             await environmentUser(supervisorId, environment, 'supervisor');
             await bossModel.findByIdAndUpdate(id, { $push: { supervisor } });
 
-            sendMail(supervisor);
+            await sendMail(supervisor);
             return saveSupervisor;
         case 'supervisor':
             const watcher = await watcherModel.create({
@@ -122,7 +122,7 @@ async function signUp (
             await environmentUser(watcherId, environment, 'watcher');
             await supervisorModel.findByIdAndUpdate(id, { $push: { watcher } });
             
-            sendMail(watcher);
+            await sendMail(watcher);
             return saveWatcher;
     }
 }
