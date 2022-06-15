@@ -249,7 +249,7 @@ async function dniCHecker (dni:number) {
 
 async function getSuperior (id:string):Promise<Boss | Supervisor> {
     const supervisor = await  supervisorModel.findOne({ watcher: id})
-        .populate({ path: 'watcher' })
+        .populate({ path: 'watcher' });
     if (supervisor !== null) return supervisor._id;
     const boss = await bossModel.findOne({ supervisor: id})
         .populate({ path: 'supervisor' });
