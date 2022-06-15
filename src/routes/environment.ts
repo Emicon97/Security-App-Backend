@@ -19,9 +19,9 @@ router.get('/', TokenValidation, async (req, res) => {
 })
 
 router.get('/:id/:name', TokenValidation, async (req, res) => {
-    let { id, name } = req.params;
-    // let { name } = req.body;
-    console.log("holaaaaaaaa", id, name)
+    console.log('estoy dentroooo')
+    let { id ,name} = req.params;
+    
     try {
         let users = await getEnvironmentUsers(id, name);
         res.json(users);
