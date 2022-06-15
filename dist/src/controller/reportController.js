@@ -28,7 +28,9 @@ function sendReport(title, sender, id, description, picture) {
             title,
             description: description ? description : undefined,
             picture: picture ? picture : undefined,
+            senderType: 'Supervisor',
             sender,
+            receiverType: 'Boss',
             receiver
         });
         yield report.save();

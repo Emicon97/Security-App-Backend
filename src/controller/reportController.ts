@@ -21,7 +21,9 @@ async function sendReport (
       title,
       description: description ? description : undefined,
       picture: picture ? picture : undefined,
+      senderType: 'Supervisor',
       sender,
+      receiverType: 'Boss',
       receiver
    });
 

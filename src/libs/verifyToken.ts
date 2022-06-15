@@ -27,7 +27,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
     next();
 }
 
-export const TokenCreation = (id:String) => {
+export const TokenCreation = (id:string) => {
     return jwt.sign({id}, process.env.TOKEN_SECRET as string || 'tokenPass', {
         expiresIn: 60
     });
