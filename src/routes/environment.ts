@@ -1,4 +1,3 @@
-import { post } from '@typegoose/typegoose';
 import { Router } from 'express';
 import { getAllEnvironments, getEnvironmentUsers, environmentDelete, environmentCreate } from '../controller/environmentController';
 import { TokenValidation } from './../libs/verifyToken';
