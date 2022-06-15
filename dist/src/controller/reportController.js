@@ -24,13 +24,18 @@ function sendReport(title, sender, id, description, picture) {
         catch (err) {
             throw new Error(err.message);
         }
+        var senderType = yield (0, userController_1.roleIdentifier)(sender);
+        senderType = senderType.charAt(0).toUpperCase();
+        var receiverType;
+        senderType === 'Watcher' ?
+            receiverType = 'Supervsor' : receiverType = 'Boss';
         const report = yield reports_1.default.create({
             title,
             description: description ? description : undefined,
             picture: picture ? picture : undefined,
-            senderType: 'Supervisor',
+            senderType,
             sender,
-            receiverType: 'Boss',
+            receiverType,
             receiver
         });
         yield report.save();
