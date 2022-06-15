@@ -22,6 +22,7 @@ router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0
     }
     catch (error) {
         if (error instanceof Error) {
+            console.log(error.message);
             res.status(404).json(error.message);
         }
         else {
