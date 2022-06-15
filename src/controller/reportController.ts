@@ -18,7 +18,7 @@ async function sendReport (
    }
 
    var senderType:string = await roleIdentifier(sender);
-   senderType = senderType.charAt(0).toUpperCase();
+   senderType = senderType.charAt(0).toUpperCase() + senderType.slice(1);
    var receiverType:string;
    senderType === 'Watcher' ?
       receiverType = 'Supervsor' : receiverType = 'Boss';
