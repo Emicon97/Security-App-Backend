@@ -254,12 +254,12 @@ function dniCHecker(dni) {
 }
 function getSuperior(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const supervisor = yield user_1.supervisorModel.findOne({})
-            .populate({ path: 'watcher', match: id, select: '_id' });
-        if (supervisor)
+        const supervisor = yield user_1.supervisorModel.findOne({ watcher: id })
+            .populate({ path: 'watcher' });
+        if (supervisor !== null)
             return supervisor._id;
-        const boss = yield user_1.bossModel.findOne({})
-            .populate({ path: 'supervisor', match: id });
+        const boss = yield user_1.bossModel.findOne({ supervisor: id })
+            .populate({ path: 'supervisor' });
         if (boss)
             return boss._id;
         throw new Error('There was a problem with the hierarchy in the database. Cannot contact a superior.');

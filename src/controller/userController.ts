@@ -248,11 +248,11 @@ async function dniCHecker (dni:number) {
 }
 
 async function getSuperior (id:string):Promise<Boss | Supervisor> {
-    const supervisor = await  supervisorModel.findOne({})
-        .populate({path: 'watcher', match: id, select: '_id'})
-    if (supervisor) return supervisor._id;
-    const boss = await bossModel.findOne({})
-        .populate({path: 'supervisor', match: id});
+    const supervisor = await  supervisorModel.findOne({ watcher: id})
+        .populate({ path: 'watcher' })
+    if (supervisor !== null) return supervisor._id;
+    const boss = await bossModel.findOne({ supervisor: id})
+        .populate({ path: 'supervisor' });
     if (boss) return boss._id;
     throw new Error ('There was a problem with the hierarchy in the database. Cannot contact a superior.');
 }
