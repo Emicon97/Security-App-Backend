@@ -28,9 +28,9 @@ router.get('/', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, v
         }
     }
 }));
-router.get('/:id', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { id } = req.params;
-    let { name } = req.body;
+router.get('/:id/:name', verifyToken_1.TokenValidation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('estoy dentroooo');
+    let { id, name } = req.params;
     try {
         let users = yield (0, environmentController_1.getEnvironmentUsers)(id, name);
         res.json(users);

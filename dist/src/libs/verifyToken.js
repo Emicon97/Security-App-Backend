@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefreshToken = exports.TokenCreation = exports.TokenValidation = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const TokenValidation = (req, res, next) => {
+    console.log('en token validation');
     const authToken = req.headers['auth-token'];
     const refreshToken = req.headers['refresh-token'];
     if (!authToken)

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
 
 export const TokenValidation = (req: Request, res: Response, next: NextFunction)=>{
+    console.log('en token validation')
     const authToken = req.headers['auth-token'] as string;
     const refreshToken = req.headers['refresh-token'] as string;
 
@@ -27,7 +28,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
     next();
 }
 
-export const TokenCreation = (id:String) => {
+export const TokenCreation = (id:string) => {
     return jwt.sign({id}, process.env.TOKEN_SECRET as string || 'tokenPass', {
         expiresIn: 60
     });

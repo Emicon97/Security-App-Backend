@@ -12,6 +12,7 @@ router.get('/:id', TokenValidation, async (req, res) => {
       res.json(reports);
    }  catch (error) {
       if (error instanceof Error) {
+         console.log(error.message);
          res.status(404).json(error.message);
       } else {
          console.log('Unexpected Error', error);
