@@ -11,7 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Report = void 0;
 const typegoose_1 = require("@typegoose/typegoose");
-const user_1 = require("./user");
+const SENDER_TYPES = ['Supervisor', 'Watcher'];
+const RECEIVER_TYPES = ['Boss', 'Supervisor'];
 class Report {
 }
 __decorate([
@@ -27,11 +28,19 @@ __decorate([
     __metadata("design:type", String)
 ], Report.prototype, "picture", void 0);
 __decorate([
-    (0, typegoose_1.prop)({ required: true, ref: () => user_1.Watcher || user_1.Supervisor }),
+    (0, typegoose_1.prop)({ required: true, enum: SENDER_TYPES }),
+    __metadata("design:type", String)
+], Report.prototype, "senderType", void 0);
+__decorate([
+    (0, typegoose_1.prop)({ refPath: 'senderType' }),
     __metadata("design:type", Object)
 ], Report.prototype, "sender", void 0);
 __decorate([
-    (0, typegoose_1.prop)({ required: true, ref: () => user_1.Supervisor || user_1.Boss }),
+    (0, typegoose_1.prop)({ required: true, enum: RECEIVER_TYPES }),
+    __metadata("design:type", String)
+], Report.prototype, "receiverType", void 0);
+__decorate([
+    (0, typegoose_1.prop)({ refPath: 'receiverType' }),
     __metadata("design:type", Object)
 ], Report.prototype, "receiver", void 0);
 exports.Report = Report;
