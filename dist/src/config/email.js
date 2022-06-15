@@ -11,17 +11,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.recoverEmail = exports.sendMail = void 0;
 const nodemailer = require('nodemailer');
+const nodemailerSendgrid = require('nodemailer-sendgrid');
+//configuracion de SMTP sendGrid
 // configuracion de SMTP con mailtrap
 const createTrans = () => {
     //necesitamos especificar a nodemailer que tipo de conexion queremos
-    const transport = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
-        auth: {
-            user: "e9850001e3f0b7",
-            pass: "5568cbcab5ce8e"
-        }
-    });
+    // const transport = nodemailer.createTransport({
+    //     host: "smtp.mailtrap.io",
+    //     port: 2525,
+    //     auth: {
+    //       user: "a06c02d9f4b52b",
+    //       pass: "0b35d51e9869ff"
+    //     }
+    //   });
+    const transport = nodemailer.createTransport(nodemailerSendgrid({
+        apiKey: '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',
+    }));
     // nos retorna esta conexion
     return transport;
 };
@@ -31,7 +36,7 @@ const sendMail = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = createTrans();
     // a ese transporter le pasamos la funcion sendMail y le pasamos una serie de datos
     const info = yield transporter.sendMail({
-        from: '"Hello World" <foo@example.com>',
+        from: 'centinel_organization@hotmail.com',
         //para pasar 1 o mas correos tienen que ir en un array
         to: `${user.email}`,
         subject: `Hola ${user.name} Bienvenido a Centinel Security`,
@@ -300,7 +305,7 @@ exports.sendMail = sendMail;
 const recoverEmail = (user, token, refresh) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = createTrans();
     const info = yield transporter.sendMail({
-        from: '<foo@example.com>',
+        from: 'centinel_organization@hotmail.com',
         to: `${user.email}`,
         subject: `Recuperar contraseña`,
         html: `<h1>Para recuperar tu contraseña presione el siguiente link</h1>

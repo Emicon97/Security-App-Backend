@@ -8,4 +8,5 @@ export default {
     MONGO_HOST: process.env.MONGO_HOST ||  'localhost',
     MONGO_CONFIGURATION: process.env.MONGO_CONFIGURATION || 'security-app',
     PORT: process.env.PORT || 3001,
+    SENDGRID:process.env.SENDGRID
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verificationEmail, verificationDNI } from '../controller/verificationController';
+import { verificationEmail, verificationDNI, verificationEmailAndDNI } from '../controller/verificationController';
 const router = Router();
 
 //!Verifica si el email ingresado por el usuario existe o no en la DB
@@ -27,6 +27,24 @@ router.get('/dni', async(req, res) => {
         //return "ID not available" si el dni ya existe 
         //       "ID available" si esta disponible
         res.send(status);
+    }catch(error:any){
+        throw new Error(error.message);
+    }
+})
+
+
+//!Verifica si el dni y email ingresados pertenecen al mismo usuario
+//* necesita que se envie dni y email por body
+//http://localhost:3001/verification/user
+router.get('/user/:dni/:email', async(req, res) => {
+    try{
+        const { dni, email } = req.params;
+        let user = await verificationEmailAndDNI(dni, email)
+        if(user !== false){
+            res.send('Correct compatibility')
+        }else{
+            res.send('Incompatible compatibility')
+        }
     }catch(error:any){
         throw new Error(error.message);
     }

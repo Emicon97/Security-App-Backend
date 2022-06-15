@@ -1,16 +1,14 @@
 const nodemailer = require('nodemailer');
+const nodemailerSendgrid = require('nodemailer-sendgrid')
+import config from '../config/config'
 
 // configuracion de SMTP con mailtrap
 const createTrans = () => {
-    //necesitamos especificar a nodemailer que tipo de conexion queremos
-    const transport = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
-        auth: {
-          user: "e9850001e3f0b7",
-          pass: "5568cbcab5ce8e"
-        }
-      });
+    const transport = nodemailer.createTransport(
+        nodemailerSendgrid({
+            apiKey: config.SENDGRID,
+        })
+    )
     // nos retorna esta conexion
     return transport;
 }
@@ -21,7 +19,7 @@ export const sendMail = async (user:any) => {
     const transporter = createTrans()
     // a ese transporter le pasamos la funcion sendMail y le pasamos una serie de datos
     const info = await transporter.sendMail({
-        from: '"Hello World" <foo@example.com>', //sender address
+        from: 'centinel_organization@hotmail.com', //sender address
         //para pasar 1 o mas correos tienen que ir en un array
         to: `${user.email}`, // list of receivers
         subject: `Hola ${user.name} Bienvenido a Centinel Security`,
@@ -291,7 +289,7 @@ export const recoverEmail = async (user:any, token:string, refresh:string) => {
   const transporter = createTrans();
 
   const info = await transporter.sendMail({
-    from: '<foo@example.com>',
+    from: 'centinel_organization@hotmail.com',
     to: `${user.email}`,
     subject: `Recuperar contraseña`,
     html: `<h1>Para recuperar tu contraseña presione el siguiente link</h1>

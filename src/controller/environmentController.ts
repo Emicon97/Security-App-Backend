@@ -10,6 +10,7 @@ async function getAllEnvironments() {
 
 async function getEnvironmentUsers(id:string, name:string) {
     try {
+        console.log(id, name, "Desde getEnvironmenteUsers")
         const role:string = await roleIdentifier(id);
         const users:Environment[] = [];
 

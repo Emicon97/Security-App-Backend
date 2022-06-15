@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verificationDNI = exports.verificationEmail = void 0;
+exports.verificationEmailAndDNI = exports.verificationDNI = exports.verificationEmail = void 0;
 const user_1 = require("../models/user");
 //*Function verifica si existe un email y retorna un string
 function verificationEmail(email) {
@@ -53,3 +53,24 @@ function verificationDNI(dni) {
     });
 }
 exports.verificationDNI = verificationDNI;
+//*Function verifica si pertenece dni y email
+function verificationEmailAndDNI(dni, email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(dni, email);
+        try {
+            let boss = yield user_1.bossModel.findOne({ dni, email });
+            let supervisor = yield user_1.supervisorModel.findOne({ dni, email });
+            let watcher = yield user_1.watcherModel.findOne({ dni, email });
+            if (boss !== null || supervisor !== null || watcher !== null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    });
+}
+exports.verificationEmailAndDNI = verificationEmailAndDNI;

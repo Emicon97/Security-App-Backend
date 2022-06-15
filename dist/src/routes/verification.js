@@ -42,4 +42,22 @@ router.get('/dni', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         throw new Error(error.message);
     }
 }));
+//!Verifica si el dni y email ingresados pertenecen al mismo usuario
+//* necesita que se envie dni y email por body
+//http://localhost:3001/verification/user
+router.get('/user/:dni/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { dni, email } = req.params;
+        let user = yield (0, verificationController_1.verificationEmailAndDNI)(dni, email);
+        if (user !== false) {
+            res.send('Correct compatibility');
+        }
+        else {
+            res.send('Incompatible compatibility');
+        }
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+}));
 exports.default = router;
