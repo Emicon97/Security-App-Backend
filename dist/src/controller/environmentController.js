@@ -27,6 +27,7 @@ exports.getAllEnvironments = getAllEnvironments;
 function getEnvironmentUsers(id, name) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log(id, name, "Desde getEnvironmenteUsers");
             const role = yield (0, userController_1.roleIdentifier)(id);
             const users = [];
             if (role === 'boss') {
